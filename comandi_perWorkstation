@@ -1,0 +1,199 @@
+#!/bin/bash
+
+# per farlo funzionare così com'è su Windows:
+# install Windows Subsystem for Linux
+# enable WSL 
+# run in WSL terminal: code .
+
+
+# avviare container da immagine otbtf e montare volume con bind mounts
+docker run -it --platform=linux/amd64 -v ~/Desktop/Dune_deep/prova_semantic_dune:/data mdl4eo/otbtf:latest
+
+# su Windows:
+# docker run -it --platform=linux/amd64 -v C:/Users/Emilia/Desktop/prova_semantic_dune:/data mdl4eo/otbtf:latest /bin/bash
+
+# cambiare directory
+cd /data/
+ls /data/
+
+# installare pacchetti
+pip install pyotb pystac-client planetary-computer
+
+### tentativo 20 - rete 6 strati, HeNormal, patch v3, aumento n filtri (da 64) -----------------------------
+script terminal_logs/log_v20.txt
+
+python training_v20.py \
+  --model_dir /data/output/savedmodel_v20 \
+  --log_dir /data/logs/savedmodel_v20 \
+  --epochs 50 \
+  --ckpt_dir /data/ckpts/savedmodel_v20 \
+  --output_file output_v20.txt
+
+python inference_aoi2.py \
+  --model_dir /data/output/savedmodel_v20 \
+  --output_name map_v20.tif
+
+exit
+
+### tentativo 21 - rete 8 strati, HeNormal, patch v3, aumento n filtri (da 64) -----------------------------
+script terminal_logs/log_v21.txt
+
+python training_v21.py \
+  --model_dir /data/output/savedmodel_v21 \
+  --log_dir /data/logs/savedmodel_v21 \
+  --epochs 50 \
+  --ckpt_dir /data/ckpts/savedmodel_v21 \
+  --output_file output_v21.txt
+
+python inference_aoi2.py \
+  --model_dir /data/output/savedmodel_v21 \
+  --output_name map_v21.tif
+
+exit
+
+### tentativo 22 - rete a 10 strati, HeNormal, patch v3, filtri da 32, stride=2  -----------------------------
+script terminal_logs/log_v22.txt
+
+python training_v22.py \
+  --model_dir /data/output/savedmodel_v22 \
+  --log_dir /data/logs/savedmodel_v22 \
+  --epochs 50 \
+  --ckpt_dir /data/ckpts/savedmodel_v22 \
+  --output_file output_v22.txt
+
+python inference_aoi2.py \
+  --model_dir /data/output/savedmodel_v22 \
+  --output_name map_v22.tif
+
+exit
+
+### tentativo 23 - rete a 10 strati, HeNormal, patch v3, filtri da 64, stride=2  -----------------------------
+script terminal_logs/log_v23.txt
+
+python training_v23.py \
+  --model_dir /data/output/savedmodel_v23 \
+  --log_dir /data/logs/savedmodel_v23 \
+  --epochs 50 \
+  --ckpt_dir /data/ckpts/savedmodel_v23 \
+  --output_file output_v23.txt
+
+python inference_aoi2.py \
+  --model_dir /data/output/savedmodel_v23 \
+  --output_name map_v23.tif
+
+exit
+
+### tentativo 24 - come v20 (6 strati), lr ridotto -----------------------------
+script terminal_logs/log_v24.txt
+
+python training_v20.py \
+  --model_dir /data/output/savedmodel_v24 \
+  --log_dir /data/logs/savedmodel_v24 \
+  --epochs 50 \
+  --learning_rate 0.0001 \
+  --ckpt_dir /data/ckpts/savedmodel_v24 \
+  --output_file output_v24.txt
+
+python inference_aoi2.py \
+  --model_dir /data/output/savedmodel_v24 \
+  --output_name map_v24.tif
+
+exit
+
+### tentativo 25 - come v21 (8 strati), lr ridotto -----------------------------
+script terminal_logs/log_v25.txt
+
+python training_v21.py \
+  --model_dir /data/output/savedmodel_v25 \
+  --log_dir /data/logs/savedmodel_v25 \
+  --epochs 50 \
+  --learning_rate 0.0001 \
+  --ckpt_dir /data/ckpts/savedmodel_v25 \
+  --output_file output_v25.txt
+
+python inference_aoi2.py \
+  --model_dir /data/output/savedmodel_v25 \
+  --output_name map_v25.tif
+
+exit
+
+### tentativo 26 - come v22 (10 strati, stride=2), lr ridotto -----------------------------
+script terminal_logs/log_v26.txt
+
+python training_v22.py \
+  --model_dir /data/output/savedmodel_v26 \
+  --log_dir /data/logs/savedmodel_v26 \
+  --epochs 50 \
+  --learning_rate 0.0001 \
+  --ckpt_dir /data/ckpts/savedmodel_v26 \
+  --output_file output_v26.txt
+
+python inference_aoi2.py \
+  --model_dir /data/output/savedmodel_v26 \
+  --output_name map_v26.tif
+
+exit
+
+### tentativo 27 - come v23 (10 strati, stride=2, filtri=64), lr ridotto -----------------------------
+script terminal_logs/log_v27.txt
+
+python training_v23.py \
+  --model_dir /data/output/savedmodel_v27 \
+  --log_dir /data/logs/savedmodel_v27 \
+  --epochs 50 \
+  --learning_rate 0.0001 \
+  --ckpt_dir /data/ckpts/savedmodel_v27 \
+  --output_file output_v27.txt
+
+python inference_aoi2.py \
+  --model_dir /data/output/savedmodel_v27 \
+  --output_name map_v27.tif
+
+exit
+
+### tentativo 28 - 12 strati, stride=1, filtri=32 -----------------------------
+script terminal_logs/log_v28.txt
+
+python training_v28.py \
+  --model_dir /data/output/savedmodel_v28 \
+  --log_dir /data/logs/savedmodel_v28 \
+  --epochs 50 \
+  --learning_rate 0.0002 \
+  --ckpt_dir /data/ckpts/savedmodel_v28 \
+  --output_file output_v27.txt
+
+python inference_aoi2.py \
+  --model_dir /data/output/savedmodel_v28 \
+  --output_name map_v28.tif
+
+exit
+
+### tentativo 29 - come v28, lr ridotto -----------------------------
+script terminal_logs/log_v29.txt
+
+python training_v28.py \
+  --model_dir /data/output/savedmodel_v29 \
+  --log_dir /data/logs/savedmodel_v29 \
+  --epochs 50 \
+  --learning_rate 0.0001 \
+  --ckpt_dir /data/ckpts/savedmodel_v29 \
+  --output_file output_v29.txt
+
+python inference_aoi2.py \
+  --model_dir /data/output/savedmodel_v29 \
+  --output_name map_v29.tif
+
+exit
+
+
+
+### ----------------------------- script ancora da aggiungere:
+# ingrandire patch
+# EfficientNet
+# ResNet
+# Inception CNN
+
+# EfficientNet: pip install -U efficientnet
+
+
+

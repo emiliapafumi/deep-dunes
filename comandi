@@ -1,0 +1,405 @@
+#### Esperimenti con CNN su RGB dune
+
+# avviare container da immagine otbtf e montare volume con bind mounts
+# su Mac:
+docker run -it --platform=linux/amd64 -v ~/Desktop/Dune_deep/prova_semantic_dune:/data mdl4eo/otbtf:latest
+# su Windows:
+# docker run -it --platform=linux/amd64 -v C:/Users/Emilia/Desktop/prova_semantic_dune:/data mdl4eo/otbtf:latest /bin/bash
+
+# cambiare directory
+cd /data/
+ls /data/
+
+# installare pacchetti
+pip install pyotb pystac-client planetary-computer
+
+
+# COMANDI 17-10-2024 ################################################################
+
+### tentativo 1 - come da tutorial -----------------------------
+python sampling.py
+
+python training_v1.py \
+  --model_dir /data/output/savedmodel_v1 \
+  --log_dir /data/logs/savedmodel_v1 \
+  --epochs 50 \
+  --ckpt_dir /data/ckpts/savedmodel_v1
+
+# loss: 42.85
+# softmax_layer_loss: 42.85
+# softmax_layer_precision: 0.00
+# softmax_layer_recall: 0.00
+# softmax_layer_precision_1: 7.90
+# softmax_layer_recall_1: 34.28
+# softmax_layer_precision_2: 17.80
+# softmax_layer_recall_2: 17.65
+# softmax_layer_fscore_cls0: 0.00
+# softmax_layer_fscore_cls1: 12.84
+# softmax_layer_fscore_cls2: 17.72
+
+python inference_aoi1.py \
+  --model_dir /data/output/savedmodel_v1 \
+  --output_name map_v1.tif
+
+### tentativo 2 - aumento numero filtri -----------------------------
+python training_v2.py \
+  --model_dir /data/output/savedmodel_v2 \
+  --log_dir /data/logs/savedmodel_v2 \
+  --epochs 50 \
+  --ckpt_dir /data/ckpts/savedmodel_v2
+
+# loss: 370.84
+# softmax_layer_loss: 370.84
+# softmax_layer_precision: 0.00
+# softmax_layer_recall: 0.00
+# softmax_layer_precision_1: 6.85
+# softmax_layer_recall_1: 29.05
+# softmax_layer_precision_2: 22.14
+# softmax_layer_recall_2: 58.68
+# softmax_layer_fscore_cls0: 0.00
+# softmax_layer_fscore_cls1: 11.09
+# softmax_layer_fscore_cls2: 32.15
+
+python inference_aoi1.py \
+  --model_dir /data/output/savedmodel_v2 \
+  --output_name map_v2.tif
+
+### tentativo  3 - aumento batch size -----------------------------
+python training_v1.py \
+  --model_dir /data/output/savedmodel_v3 \
+  --log_dir /data/logs/savedmodel_v3 \
+  --epochs 50 \
+  --batch_size 8 \
+  --ckpt_dir /data/ckpts/savedmodel_v3
+
+# loss: 41.66
+# softmax_layer_loss: 41.66
+# softmax_layer_precision: 0.00
+# softmax_layer_recall: 0.00
+# softmax_layer_precision_1: 7.94
+# softmax_layer_recall_1: 40.02
+# softmax_layer_precision_2: 17.87
+# softmax_layer_recall_2: 6.20
+# softmax_layer_fscore_cls0: 0.00
+# softmax_layer_fscore_cls1: 13.25
+# softmax_layer_fscore_cls2: 9.21
+
+python inference_aoi1.py \
+  --model_dir /data/output/savedmodel_v3 \
+  --output_name map_v3.tif
+
+### tentativo 4 - patch sovrapposte -----------------------------
+python sampling_v4.py
+
+python training_v4.py \
+  --model_dir /data/output/savedmodel_v4 \
+  --log_dir /data/logs/savedmodel_v4 \
+  --epochs 50 \
+  --ckpt_dir /data/ckpts/savedmodel_v4
+
+python inference_aoi1.py \
+  --model_dir /data/output/savedmodel_v4 \
+  --output_name map_v4.tif
+
+### tentativo 1bis - altre patch e labels -----------------------------
+python training_v1.py \
+  --model_dir /data/output/savedmodel_v1bis \
+  --log_dir /data/logs/savedmodel_v1bis \
+  --epochs 50 \
+  --ckpt_dir /data/ckpts/savedmodel_v1bis
+
+
+### tentativo 5 - L2 regularization -----------------------------
+python training_v5.py \
+  --model_dir /data/output/savedmodel_v5 \
+  --log_dir /data/logs/savedmodel_v5 \
+  --epochs 50 \
+  --ckpt_dir /data/ckpts/savedmodel_v5
+
+# loss: 527163090534400.00
+# softmax_layer_loss: 527163090534400.00
+# softmax_layer_precision: 0.00
+# softmax_layer_recall: 0.00
+# softmax_layer_precision_1: 10.28
+# softmax_layer_recall_1: 41.79
+# softmax_layer_precision_2: 21.98
+# softmax_layer_recall_2: 39.18
+# softmax_layer_fscore_cls0: 0.00
+# softmax_layer_fscore_cls1: 16.50
+# softmax_layer_fscore_cls2: 28.16
+
+python inference_aoi1.py \
+  --model_dir /data/output/savedmodel_v5 \
+  --output_name map_v5.tif
+
+
+# COMANDI 23-10-2024 ###############################################################
+
+### tentativo 6 - aumento filter number -----------------------------
+python training_v6.py \
+  --model_dir /data/output/savedmodel_v6 \
+  --log_dir /data/logs/savedmodel_v6 \
+  --epochs 50 \
+  --ckpt_dir /data/ckpts/savedmodel_v6
+
+python inference_aoi1.py \
+  --model_dir /data/output/savedmodel_v6 \
+  --output_name map_v6.tif
+
+### tentativo 7 - batch normalization -----------------------------
+python training_v7.py \
+  --model_dir /data/output/savedmodel_v7 \
+  --log_dir /data/logs/savedmodel_v7 \
+  --epochs 50 \
+  --ckpt_dir /data/ckpts/savedmodel_v7
+
+python inference_aoi1.py \
+  --model_dir /data/output/savedmodel_v7 \
+  --output_name map_v7.tif
+
+### tentativo 8 - batch normalization & stride=1 -----------------------------
+python training_v8.py \
+  --model_dir /data/output/savedmodel_v8 \
+  --log_dir /data/logs/savedmodel_v8 \
+  --epochs 50 \
+  --ckpt_dir /data/ckpts/savedmodel_v8
+
+python inference_aoi1.py \
+  --model_dir /data/output/savedmodel_v8 \
+  --output_name map_v8.tif
+
+#### tentativo 9 - come v8 ma solo 2 strati -----------------------------
+python training_v9.py \
+  --model_dir /data/output/savedmodel_v9 \
+  --log_dir /data/logs/savedmodel_v9 \
+  --epochs 50 \
+  --ckpt_dir /data/ckpts/savedmodel_v9
+
+python inference_aoi1.py \
+  --model_dir /data/output/savedmodel_v9 \
+  --output_name map_v9.tif
+
+### tentativo 10 - come v9 ma immagine piccola -----------------------------
+python sampling_v2.py
+
+python training_v10.py \
+  --model_dir /data/output/savedmodel_v10 \
+  --log_dir /data/logs/savedmodel_v10 \
+  --epochs 50 \
+  --ckpt_dir /data/ckpts/savedmodel_v10
+
+# loss: 10.56
+# softmax_layer_loss: 10.56
+# softmax_layer_precision: 0.00
+# softmax_layer_recall: 0.00
+# softmax_layer_precision_1: 69.06
+# softmax_layer_recall_1: 95.69
+# softmax_layer_precision_2: 44.35
+# softmax_layer_recall_2: 92.21
+# softmax_layer_fscore_cls0: 0.00
+# softmax_layer_fscore_cls1: 80.22
+# softmax_layer_fscore_cls2: 59.89
+
+python inference_aoi2.py \
+  --model_dir /data/output/savedmodel_v10 \
+  --output_name map_v10.tif
+
+### tentativo 11 - come v10 ma 4 strati -----------------------------
+python training_v11.py \
+  --model_dir /data/output/savedmodel_v11 \
+  --log_dir /data/logs/savedmodel_v11 \
+  --epochs 50 \
+  --ckpt_dir /data/ckpts/savedmodel_v11
+
+# loss: 19.79
+# softmax_layer_loss: 19.79
+# softmax_layer_precision: 0.00
+# softmax_layer_recall: 0.00
+# softmax_layer_precision_1: 72.23
+# softmax_layer_recall_1: 93.87
+# softmax_layer_precision_2: 77.77
+# softmax_layer_recall_2: 42.61
+# softmax_layer_fscore_cls0: 0.00
+# softmax_layer_fscore_cls1: 81.64
+# softmax_layer_fscore_cls2: 55.06
+
+python inference_aoi2.py \
+  --model_dir /data/output/savedmodel_v11 \
+  --output_name map_v11.tif
+
+### tentativo 12 - come v11 ma 6 strati -----------------------------
+python training_v12.py \
+  --model_dir /data/output/savedmodel_v12 \
+  --log_dir /data/logs/savedmodel_v12 \
+  --epochs 50 \
+  --ckpt_dir /data/ckpts/savedmodel_v12
+
+python inference_aoi2.py \
+  --model_dir /data/output/savedmodel_v12 \
+  --output_name map_v12.tif
+
+### tentativo 13 - 8 strati -----------------------------
+python training_v13.py \
+  --model_dir /data/output/savedmodel_v13 \
+  --log_dir /data/logs/savedmodel_v13 \
+  --epochs 50 \
+  --ckpt_dir /data/ckpts/savedmodel_v13
+
+python inference_aoi2.py \
+  --model_dir /data/output/savedmodel_v13 \
+  --output_name map_v13.tif
+
+### provare a ridurre class imbalance (controlla che classi siano bilanciate, magari aumenta n campioni)
+### prova ad aumentare ancora strati (magari con tanti strati prova a riaumentare di nuovo lo stride a 2)
+### prova ad aumentare filtri (partire da 64 invece che da 32)
+### ridurre learning rate
+### prova ad ingrandire dimensione patch
+### salva output in txt mettendolo nel codice
+### prova altre architetture CNN tipo Inception (Inception V3), EfficientNet, ResNet (più pesante)
+
+### aprire history terminale mac in txt
+open ~/.bash_history
+
+
+# COMANDI 24-10-2024 ################################################################
+
+### tentativo 14 - rete a 8 strati con HeNormal inizialization -----------------------------
+python training_v14.py \
+  --model_dir /data/output/savedmodel_v14 \
+  --log_dir /data/logs/savedmodel_v14 \
+  --epochs 50 \
+  --ckpt_dir /data/ckpts/savedmodel_v14 \
+  --output_file output_v14.txt
+
+# loss: 3.76
+# softmax_layer_loss: 3.76
+# softmax_layer_precision: 0.00
+# softmax_layer_recall: 0.00
+# softmax_layer_precision_1: 10.08
+# softmax_layer_recall_1: 96.96
+# softmax_layer_precision_2: 81.70
+# softmax_layer_recall_2: 97.30
+# softmax_layer_fscore_cls0: 0.00
+# softmax_layer_fscore_cls1: 18.26
+# softmax_layer_fscore_cls2: 88.82
+
+python inference_aoi2.py \
+  --model_dir /data/output/savedmodel_v14 \
+  --output_name map_v14.tif
+
+### tentativo 15 - rete a 2 strati (come v10), con patch v3 (classi 0,1,2) -----------------------------
+script terminal_logs/log_v15.txt
+
+python sampling_v3.py
+
+python training_v15.py \
+  --model_dir /data/output/savedmodel_v15 \
+  --log_dir /data/logs/savedmodel_v15 \
+  --epochs 50 \
+  --ckpt_dir /data/ckpts/savedmodel_v15
+
+# loss: 12.54
+# softmax_layer_loss: 12.54
+# softmax_layer_precision: 99.84
+# softmax_layer_recall: 98.19
+# softmax_layer_precision_1: 91.43
+# softmax_layer_recall_1: 95.26
+# softmax_layer_precision_2: 87.76
+# softmax_layer_recall_2: 82.94
+# softmax_layer_fscore_cls0: 99.01
+# softmax_layer_fscore_cls1: 93.30
+# softmax_layer_fscore_cls2: 85.28
+
+python inference_aoi2.py \
+  --model_dir /data/output/savedmodel_v15 \
+  --output_name map_v15.tif
+
+exit
+
+### tentativo 16 - rete a 6 strati, HeNormal, patch v3 (classi 0,1,2) -----------------------------
+script terminal_logs/log_v16.txt
+
+python training_v16.py \
+  --model_dir /data/output/savedmodel_v16 \
+  --log_dir /data/logs/savedmodel_v16 \
+  --epochs 50 \
+  --ckpt_dir /data/ckpts/savedmodel_v16
+
+# loss: 10.29
+# softmax_layer_loss: 10.29
+# softmax_layer_precision: 99.90
+# softmax_layer_recall: 98.84
+# softmax_layer_precision_1: 93.55
+# softmax_layer_recall_1: 95.87
+# softmax_layer_precision_2: 88.64
+# softmax_layer_recall_2: 86.30
+# softmax_layer_fscore_cls0: 99.37
+# softmax_layer_fscore_cls1: 94.70
+# softmax_layer_fscore_cls2: 87.45
+
+python inference_aoi2.py \
+  --model_dir /data/output/savedmodel_v16 \
+  --output_name map_v16.tif
+
+exit
+
+### tentativo 17 - rete a 8 strati, HeNormal, patch v3 (classi 0,1,2) -----------------------------
+script terminal_logs/log_v17_b.txt
+
+python training_v17.py \
+  --model_dir /data/output/savedmodel_v17 \
+  --log_dir /data/logs/savedmodel_v17 \
+  --epochs 50 \
+  --ckpt_dir /data/ckpts/savedmodel_v17
+
+# loss: 10.44
+# softmax_layer_loss: 10.44
+# softmax_layer_precision: 99.92
+# softmax_layer_recall: 98.94
+# softmax_layer_precision_1: 94.04
+# softmax_layer_recall_1: 95.88
+# softmax_layer_precision_2: 87.10
+# softmax_layer_recall_2: 85.75
+# softmax_layer_fscore_cls0: 99.43
+# softmax_layer_fscore_cls1: 94.95
+# softmax_layer_fscore_cls2: 86.42
+
+python inference_aoi2.py \
+  --model_dir /data/output/savedmodel_v17 \
+  --output_name map_v17.tif
+
+exit
+
+
+### tentativo 18 - rete a 10 strati, HeNormal, patch v3 (classi 0,1,2) -----------------------------
+script terminal_logs/log_v18.txt
+
+python training_v18.py \
+  --model_dir /data/output/savedmodel_v18 \
+  --log_dir /data/logs/savedmodel_v18 \
+  --epochs 50 \
+  --ckpt_dir /data/ckpts/savedmodel_v18
+
+# loss: 9.59
+# softmax_layer_loss: 9.59
+# softmax_layer_precision: 99.92
+# softmax_layer_recall: 99.65
+# softmax_layer_precision_1: 94.11
+# softmax_layer_recall_1: 93.16
+# softmax_layer_precision_2: 87.10
+# softmax_layer_recall_2: 89.28
+# softmax_layer_fscore_cls0: 99.79
+# softmax_layer_fscore_cls1: 93.63
+# softmax_layer_fscore_cls2: 88.18
+
+python inference_aoi2.py \
+  --model_dir /data/output/savedmodel_v18 \
+  --output_name map_v18.tif
+
+exit
+
+# visualizzazione modelli CNN
+# pip install tensorflow tensorboard
+# Open command palette (Cmd + Shift + P) -> Python: Launch Tensorboard
+# Select directory with logs
+
