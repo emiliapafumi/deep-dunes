@@ -22,7 +22,7 @@ python scripts/2-training.py --data_folder data/dune-uav/ --model_name cnn-01 --
 python scripts/3-inference.py --data_folder data/dune-uav/ --model_name cnn-01 --img_type rgb --ext_fname box=3000:3000:5000:5000
 ```
 
-## Requirements
+### Requirements
 - Python 3.8+
 - tensorflow
 - keras
