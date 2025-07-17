@@ -26,9 +26,9 @@ exist_multi = Path(img_multi).exists()
 out_pth = args.data_folder
 output_folder = Path(out_pth)
 
-prefix_train = out_pth + "train_eunis_"
-prefix_valid = out_pth + "valid_eunis_"
-prefix_test = out_pth + "test_eunis_"
+prefix_train = out_pth + "train_"
+prefix_valid = out_pth + "valid_"
+prefix_test = out_pth + "test_"
 
 
 # split into training, validation, and test sets -----------------
