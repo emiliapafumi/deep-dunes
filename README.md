@@ -10,16 +10,13 @@ This repository contains data and code for semantic segmentation of remote sensi
 
 ## Use
 Here is an example of use on RGB imagery from UAV dataset. 
-1) patch extraction:
-   patches corresponding to the ground truth squares (2 m x 2 m) are extracted from each remote sensing dataset. 
-   `python scripts/sampling.py --data_folder data/dune-uav/ --patch_size 100 --epsg_code 32632`
-    
-3) model training:
-   a CNN model with U-Net architecture is trained.
-   `python scripts/training.py --data_folder data/dune-uav/ --model_name cnn-01 --img_type rgb --class_nb 4 --epochs 50`
-   
+1) patch extraction: patches corresponding to the ground truth squares (2 m x 2 m) are extracted from each remote sensing dataset. 
+3) model training: a CNN model with U-Net architecture is trained.
 5) inference
 
+Example of application to RGB imagery from UAV dataset:
+`python scripts/sampling.py --data_folder data/dune-uav/ --patch_size 100 --epsg_code 32632`
+`python scripts/training.py --data_folder data/dune-uav/ --model_name cnn-01 --img_type rgb --class_nb 4 --epochs 50`
 
 ## Notes
 The processing is based on the OTBTF/keras tutorial available here: https://otb-keras-tutorial.readthedocs.io/en/latest/ 
