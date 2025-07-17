@@ -1,6 +1,6 @@
 # deep-dunes
 
-This repository contains data and code for semantic segmentation of remote sensing imagery for habitat mapping on coastal dunes.
+This repository contains code to perform semantic segmentation of remote sensing imagery for habitat mapping on coastal dunes.
 
 ## Structure of the project
 
@@ -14,7 +14,7 @@ Steps to produce habitat maps:
 2) model training: to train a CNN model with U-Net architecture;
 3) inference: to produce the final habitat map using a trained CNN model.
 
-Example of use on RGB imagery from UAV dataset:
+Example of use on RGB imagery from UAV dataset (model CNN-01):
 ```bash
 python scripts/1-sampling.py --data_folder data/dune-uav/ --patch_size 100 --epsg_code 32632
 script models/terminal_logs/log_cnn_01.txt
