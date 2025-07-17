@@ -11,8 +11,8 @@ This repository contains data and code for semantic segmentation of remote sensi
 ## Usage
 Steps to produce habitat maps:
 1) sampling: to extract patches corresponding to the ground truth squares (2 m x 2 m) from each remote sensing dataset;
-3) model training: to train a CNN model with U-Net architecture;
-5) inference: to produce the final habitat map using a trained CNN model.
+2) model training: to train a CNN model with U-Net architecture;
+3) inference: to produce the final habitat map using a trained CNN model.
 
 Example of application to RGB imagery from UAV dataset:
 ```bash
@@ -33,7 +33,7 @@ python scripts/training.py --data_folder data/dune-uav/ --model_name cnn-01 --im
 
 Install dependencies with:
 ```bash
-pip install -r requirements.txt
+pip install -r scripts/requirements.txt
 ```
 
 ## Notes
