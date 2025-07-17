@@ -15,8 +15,11 @@ Steps to produce habitat maps:
 5) inference: to produce the final habitat map using a trained CNN model.
 
 Example of application to RGB imagery from UAV dataset:
-- `python scripts/sampling.py --data_folder data/dune-uav/ --patch_size 100 --epsg_code 32632` 
-- `python scripts/training.py --data_folder data/dune-uav/ --model_name cnn-01 --img_type rgb --class_nb 4 --epochs 50`
+```bash
+python scripts/sampling.py --data_folder data/dune-uav/ --patch_size 100 --epsg_code 32632
+script models/terminal_logs/log_cnn_01.txt
+python scripts/training.py --data_folder data/dune-uav/ --model_name cnn-01 --img_type rgb --class_nb 4 --epochs 50
+```
 
 ## Requirements
 - Python 3.8+
