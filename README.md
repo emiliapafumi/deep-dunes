@@ -1,4 +1,4 @@
-# dune-cnn
+# deep-dunes
 
 This repository contains data and code for semantic segmentation of remote sensing imagery for habitat mapping on coastal dunes.
 
