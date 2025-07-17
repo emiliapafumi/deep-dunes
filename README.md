@@ -9,10 +9,10 @@ This repository contains data and code for semantic segmentation of remote sensi
 - `data/` — Directory for input and output data.
 
 ## Use
-Here is an example of use on RGB imagery from UAV dataset. 
-1) patch extraction: patches corresponding to the ground truth squares (2 m x 2 m) are extracted from each remote sensing dataset. 
-3) model training: a CNN model with U-Net architecture is trained.
-5) inference
+Steps to follow to produce habitat maps:
+1) patch extraction: to extract patches corresponding to the ground truth squares (2 m x 2 m) from each remote sensing dataset;
+3) model training: to train a CNN model with U-Net architecture;
+5) inference: to produce the final habitat map using a trained CNN model.
 
 Example of application to RGB imagery from UAV dataset:
 - `python scripts/sampling.py --data_folder data/dune-uav/ --patch_size 100 --epsg_code 32632` 
