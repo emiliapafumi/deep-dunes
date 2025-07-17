@@ -9,11 +9,12 @@ This repository contains data and code for semantic segmentation of remote sensi
 - `data/` — Directory for input and output data.
 
 ## Use
+Here is an example of use on RGB imagery from UAV dataset. 
 1) patch extraction
-   python scripts/sampling.py --data_folder path/to/data --patch_size 100 --epsg_code 32632
+   `python scripts/sampling.py --data_folder data/dune-uav/ --patch_size 100 --epsg_code 32632`
     
 3) model training
-   python scripts/training.py --data_folder path/to/data --model_name mymodel --img_type rgb --class_nb 5 --epochs 50
+   `python scripts/training.py --data_folder data/dune-uav/ --model_name cnn-01 --img_type rgb --class_nb 4 --epochs 50`
    
 5) inference
 
