@@ -1,0 +1,8 @@
+pandas
+geopandas
+rasterio
+scikit-learn
+numpy
+tensorflow>=2.8
+keras>=2.8
+otbtf
