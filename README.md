@@ -15,8 +15,8 @@ Here is an example of use on RGB imagery from UAV dataset.
 5) inference
 
 Example of application to RGB imagery from UAV dataset:
-`python scripts/sampling.py --data_folder data/dune-uav/ --patch_size 100 --epsg_code 32632`
-`python scripts/training.py --data_folder data/dune-uav/ --model_name cnn-01 --img_type rgb --class_nb 4 --epochs 50`
+-`python scripts/sampling.py --data_folder data/dune-uav/ --patch_size 100 --epsg_code 32632`
+-`python scripts/training.py --data_folder data/dune-uav/ --model_name cnn-01 --img_type rgb --class_nb 4 --epochs 50`
 
 ## Notes
 The processing is based on the OTBTF/keras tutorial available here: https://otb-keras-tutorial.readthedocs.io/en/latest/ 
