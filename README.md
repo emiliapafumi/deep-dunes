@@ -6,7 +6,7 @@ This repository contains code to perform semantic segmentation of remote sensing
 
 - `scripts/` — Directory for python scripts to use for sampling remote sensing data, training a CNN model and performing inference.
 - `models/` — Directory for saved models, logs and checkpoints.
-- `data/` — Directory for input and output data.
+- `data/` — Directory for input and output data. This folder is availabe at this link: https://drive.google.com/drive/folders/1krYQ6T-wg3J54ZcwJ8tcnwlp4-mPcgFa?usp=share_link 
 
 ## Usage
 Steps to produce habitat maps:
