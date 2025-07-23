@@ -24,7 +24,8 @@ python scripts/3-inference.py --data_folder data/dune-uav/ --model_name cnn-01 -
 
 ### Requirements
 Orfeo ToolBox Tensor Flow (OTBTF) is available on Docker. 
-Steps to start a container from OTBTF image, create a persistent volume for python libraries and install required libraries:
+Steps for using OTBTF from Docker:
+1) start a container from the OTBTF image, create a persistent volume for python libraries and install the required libraries:
 ```bash
 docker volume create python_packages
 docker run -it --platform=linux/amd64 -v ~/Desktop/deep-dunes:/data -v python_packages:/Users/emilpaf/Library/Python/3.9/lib/python/site-packages mdl4eo/otbtf:latest /bin/bash
@@ -42,7 +43,7 @@ Libraries needed:
 - scikit-learn
 - numpy
 
-Then each time you need to start the container you have created (es. priceless_goodall):
+2) start the container you have created using its name (es. priceless_goodall):
 ```bash
 docker ps -a
 docker start priceless_goodall
