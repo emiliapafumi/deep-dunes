@@ -4,5 +4,6 @@ rasterio
 scikit-learn
 numpy
 tensorflow>=2.8
+tensorboard
 keras>=2.8
 otbtf
