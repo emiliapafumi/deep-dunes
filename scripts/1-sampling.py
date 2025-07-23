@@ -32,7 +32,7 @@ for class_value, group in points_gdf.groupby('class'):
     # split into 80% training and 20% testing
     train, temp = train_test_split(group, test_size=0.4, random_state=42, stratify=None)
     
-    # split the training set into 50% testing and 50% validation
+    # split the testing set into 50% testing and 50% validation
     valid, test = train_test_split(temp, test_size=0.5, random_state=42, stratify=None)
     
     train_list.append(train)
