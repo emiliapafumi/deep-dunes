@@ -21,6 +21,7 @@ script models/terminal_logs/log_cnn_01.txt
 python scripts/2-training.py --data_folder data/dune-uav/ --model_name cnn-01 --img_type rgb --class_nb 4 --epochs 50
 python scripts/3-inference.py --data_folder data/dune-uav/ --model_name cnn-01 --img_type rgb --ext_fname box=3000:3000:5000:5000
 ```
+note: script is used to save a log
 
 ### Requirements
 Orfeo ToolBox Tensor Flow (OTBTF) is available on Docker. 
