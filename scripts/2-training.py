@@ -81,10 +81,17 @@ def tconv(inp, depth, name, activation="relu"):
 class FCNNModel(otbtf.ModelBase):
     
     def normalize_inputs(self, inputs):
+        input_img = inputs[inp_key]
+        if input_img.dtype == tf.uint8:
+            norm = tf.cast(input_img, tf.float32) / 255.0
+        
+        elif input_img.dtype == tf.uint16:
+            norm = tf.cast(input_img, tf.float32) * 1e-4
+
         return {
-            inp_key: tf.cast(inputs[inp_key], tf.float32) * 0.01
+            inp_key: norm
         }
-    
+
     def get_outputs(self, normalized_inputs):
         norm_inp = normalized_inputs[inp_key]
         cv1 = conv(norm_inp, 64, "conv1")
