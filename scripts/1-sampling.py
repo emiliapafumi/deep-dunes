@@ -29,7 +29,7 @@ valid_list = []
 test_list = []
 
 for class_value, group in points_gdf.groupby('class'):
-    # split into 80% training and 20% testing
+    # split into 60% training and 40% testing
     train, temp = train_test_split(group, test_size=0.4, random_state=42, stratify=None)
     
     # split the testing set into 50% testing and 50% validation
@@ -134,10 +134,11 @@ def stack_patches(patch_list, label_list, out_img_path, out_lbl_path):
     with rasterio.open(out_img_path, "w", **meta) as dst:
         dst.write(stacked_img)
 
-    meta["count"] = 1
-    meta["dtype"] = stacked_lbl.dtype
-    with rasterio.open(out_lbl_path, "w", **meta) as dst:
-        dst.write(stacked_lbl)
+    if out_lbl_path is not None:
+        meta["count"] = 1
+        meta["dtype"] = stacked_lbl.dtype
+        with rasterio.open(out_lbl_path, "w", **meta) as dst:
+            dst.write(stacked_lbl)
 
 
 # Apply to each split 
