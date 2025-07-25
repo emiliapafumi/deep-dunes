@@ -938,4 +938,44 @@ Changes not staged for commit:
 	[31mmodified:   scripts/3-inference.py[m
 
 Untracked files:
-  (use "git add <file>.
+  (use "git add <file>..." to include in what will be committed)
+	[31mmodels/[m
+	[31mscripts/4-validation.py[m
+
+no changes added to commit (use "git add" and/or "git commit -a")
+$ git add . 
+$ git commit -m "Update code"
+[main f614b48] Update code
+ 12 files changed, 1216 insertions(+), 12 deletions(-)
+ create mode 100644 models/accuracy_metrics.csv
+ create mode 100644 models/logs/savedmodel_cnn-01/train/events.out.tfevents.1753453732.517ffb167f01.10270.0.v2
+ create mode 100644 models/logs/savedmodel_cnn-01/validation/events.out.tfevents.1753453737.517ffb167f01.10270.1.v2
+ create mode 100644 models/output/savedmodel_cnn-01/fingerprint.pb
+ create mode 100644 models/output/savedmodel_cnn-01/keras_metadata.pb
+ create mode 100644 models/output/savedmodel_cnn-01/saved_model.pb
+ create mode 100644 models/output/savedmodel_cnn-01/variables/variables.data-00000-of-00001
+ create mode 100644 models/output/savedmodel_cnn-01/variables/variables.index
+ create mode 100644 models/terminal_logs/log_cnn_01.txt
+ create mode 100644 scripts/4-validation.py
+$ git push
+Username for 'https://github.com': emilia.pafumi
+Password for 'https://emilia.pafumi@github.com': 
+remote: Invalid username or token. Password authentication is not supported for Git operations.
+fatal: Authentication failed for 'https://github.com/emiliapafumi/deep-dunes.git/'
+$ git status
+On branch main
+Your branch is ahead of 'origin/main' by 1 commit.
+  (use "git push" to publish your local commits)
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	[31mmodified:   models/terminal_logs/log_cnn_01.txt[m
+
+no changes added to commit (use "git add" and/or "git commit -a")
+$ git add .
+$ git commit "            exoy
+sh: 15: exoy: not found
+$ r exiy t
+
+Script done on 2025-07-25 15:36:11+00:00 [COMMAND_EXIT_CODE="127"]
