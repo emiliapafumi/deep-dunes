@@ -16,7 +16,7 @@ Steps to produce habitat maps:
 
 Example of use on RGB imagery from UAV dataset (model CNN-01):
 ```bash
-python scripts/1-sampling.py --data_folder data/dune-uav/ --patch_size 100 --epsg_code 32632
+python scripts/1-sampling.py --data_folder data/dune-uav/ --patch_size 100
 script models/terminal_logs/log_cnn_01.txt
 python scripts/2-training.py --data_folder data/dune-uav/ --model_name cnn-01 --img_type rgb --class_nb 4 --epochs 50
 python scripts/3-inference.py --data_folder data/dune-uav/ --model_name cnn-01 --img_type rgb --ext_fname box=3000:3000:5000:5000
