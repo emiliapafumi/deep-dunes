@@ -1,5 +1,7 @@
 """Validation for dune cnn models"""
 
+import os
+import pandas as pd
 import geopandas as gpd
 import rasterio
 import rasterio.sample
@@ -10,7 +12,9 @@ import pandas as pd
 from scipy.stats import mode
 import argparse
 from math import sqrt
-import os
+from tensorboard.backend.event_processing import event_accumulator
+from tensorboard.compat.proto import tensor_pb2
+from tensorboard.util import tensor_util
 
 # === PARAMETERS - PARSER ===
 parser = argparse.ArgumentParser(description="Assess accuracy")
@@ -140,8 +144,31 @@ df_metrics = pd.DataFrame(metrics_list)
 df_metrics["CNN"] = model_name
 df_metrics["Image Type"] = img_type
 
-# To export to a single CSV file (one file for all aoi)
+# Export to a CSV file (one file for all cnns)
 metrics_file = "deep-dunes/models/accuracy_metrics.csv"
 write_header = not os.path.exists(metrics_file)
 df_metrics.to_csv(metrics_file, mode='a', header=write_header, index=False)
 print(f"\nMetrics saved to {metrics_file}\n")
+
+
+# === 7. Download data from TensorBoard  ===
+
+log_dir = f"deep-dunes/models/logs/savedmodel_{model_name}/validation/"
+ea = event_accumulator.EventAccumulator(log_dir)
+ea.Reload()
+
+events = ea.Tensors('epoch_loss')
+losses = []
+for e in events:
+    # Decode the tensor value
+    value = tensor_util.make_ndarray(e.tensor_proto)
+    # If it's a single value, extract it as a float
+    losses.append((model_name, e.step, float(value)))
+
+df_loss = pd.DataFrame(losses, columns=['CNN', 'step', 'loss'])
+
+# Export to a CSV file
+loss_file = f'deep-dunes/models/loss.csv'
+write_header = not os.path.exists(loss_file)
+df_loss.to_csv(loss_file, mode='a', header=write_header, index=False)
+print(f"\nLosses saved to {loss_file}\n")
