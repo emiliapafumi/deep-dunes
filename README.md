@@ -12,14 +12,16 @@ This repository contains code to perform semantic segmentation of remote sensing
 Steps to produce habitat maps:
 1) sampling: to extract patches corresponding to the ground truth squares (2 m x 2 m) from each remote sensing dataset;
 2) model training: to train a CNN model with U-Net architecture;
-3) inference: to produce the final habitat map using a trained CNN model.
+3) inference: to produce the final habitat map using a trained CNN model;
+4) validation: to compute accuracy metrics.
 
 Example of use on RGB imagery from UAV dataset (model CNN-01):
 ```bash
-python scripts/1-sampling.py --data_folder data/dune-uav/ --patch_size 100
+python deep-dunes/scripts/1-sampling.py --data_folder data/dune-uav/ --patch_size 100
 script models/terminal_logs/log_cnn_01.txt
-python scripts/2-training.py --data_folder data/dune-uav/ --model_name cnn-01 --img_type rgb --class_nb 4 --epochs 50
-python scripts/3-inference.py --data_folder data/dune-uav/ --model_name cnn-01 --img_type rgb --ext_fname box=3000:3000:5000:5000
+python deep-dunes/scripts/2-training.py --data_folder data/dune-uav/ --model_name cnn-01 --img_type rgb --class_nb 4
+python deep-dunes/scripts/3-inference.py --data_folder data/dune-uav/ --model_name cnn-01 --img_type rgb --ext_fname box=3000:3000:5000:5000
+python deep-dunes/scripts/4-validation.py --data_folder data/dune-uav/ --model_name cnn-01 --img_type rgb
 ```
 note: script is used to save a log
 
