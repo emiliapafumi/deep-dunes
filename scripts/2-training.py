@@ -16,13 +16,14 @@ parser.add_argument("--img_type", choices=["rgb", "multi"], default="rgb", help=
 parser.add_argument("--class_nb", type=int, default=5, help="Number of classes")
 parser.add_argument("--learning_rate", type=float, default=0.0002)
 parser.add_argument("--epochs", type=int, default=50)
+parser.add_argument("--batch_size", type=int, default=8, help="Batch size for training")
 params = parser.parse_args()
 tf.get_logger().setLevel('ERROR')
 
 # define directories
-model_dir = "models/output/savedmodel_" + params.model_name
-log_dir = "models/logs/savedmodel_" + params.model_name
-ckpt_dir = "models/ckpts/savedmodel_" + params.model_name
+model_dir = "deep-dunes/models/output/savedmodel_" + params.model_name
+log_dir = "deep-dunes/models/logs/savedmodel_" + params.model_name
+ckpt_dir = "deep-dunes/models/ckpts/savedmodel_" + params.model_name
 
 class_nb = params.class_nb  # number of classes
 inp_key = "input_img"       # model input
@@ -42,7 +43,7 @@ def dataset_preprocessing_fn(sample):
         tgt_key: otbtf.ops.one_hot(labels=sample["labels"], nb_classes=class_nb)
     }
 
-def create_dataset(img, labels, batch_size=8):
+def create_dataset(img, labels, batch_size=params.batch_size):
     otbtf_dataset = create_otbtf_dataset(img, labels)
     
     return otbtf_dataset.get_tf_dataset(
@@ -52,11 +53,11 @@ def create_dataset(img, labels, batch_size=8):
     )
 
 
-def conv(inp, depth, name):
+def conv(inp, depth, name, strides=1):
     conv_op = tf.keras.layers.Conv2D(
         filters=depth,
         kernel_size=3,
-        strides=1,
+        strides=strides,
         activation="relu",
         padding="same",
         name=name,
@@ -65,11 +66,11 @@ def conv(inp, depth, name):
     return conv_op(inp)
 
 
-def tconv(inp, depth, name, activation="relu"):
+def tconv(inp, depth, name, strides=2, activation="relu"):
     tconv_op = tf.keras.layers.Conv2DTranspose(
         filters=depth,
         kernel_size=3,
-        strides=1,
+        strides=strides,
         activation=activation,
         padding="same",
         name=name,
@@ -87,6 +88,8 @@ class FCNNModel(otbtf.ModelBase):
         
         elif input_img.dtype == tf.uint16:
             norm = tf.cast(input_img, tf.float32) * 1e-4
+        
+        else: norm = tf.cast(input_img, tf.float32)
 
         return {
             inp_key: norm
@@ -94,17 +97,26 @@ class FCNNModel(otbtf.ModelBase):
 
     def get_outputs(self, normalized_inputs):
         norm_inp = normalized_inputs[inp_key]
+        # Encoder
         cv1 = conv(norm_inp, 64, "conv1")
         cv1 = BatchNormalization()(cv1)
-        cv2 = conv(cv1, 128, "conv2") 
+        mp1 = tf.keras.layers.MaxPooling2D(pool_size=(2, 2))(cv1)
+
+        cv2 = conv(mp1, 128, "conv2") 
         cv2 = BatchNormalization()(cv2)
-        cv3 = conv(cv2, 256, "conv3")
+        mp2 = tf.keras.layers.MaxPooling2D(pool_size=(2, 2))(cv2)
+
+        cv3 = conv(mp2, 256, "conv3")
         cv3 = BatchNormalization()(cv3)
+
+        # Decoder
         cv1t = tconv(cv3, 128, "conv1t") + cv2
         cv1t = BatchNormalization()(cv1t)
+
         cv2t = tconv(cv1t, 64, "conv2t") + cv1
         cv2t = BatchNormalization()(cv2t)
-        cv3t = tconv(cv2t, class_nb, "softmax_layer", "softmax")
+
+        cv3t = tconv(cv2t, class_nb, "softmax_layer", strides=1, activation="softmax")
         argmax_op = otbtf.layers.Argmax(name="argmax_layer")
         
         return {tgt_key: cv3t, "estimated_labels": argmax_op(cv3t)}

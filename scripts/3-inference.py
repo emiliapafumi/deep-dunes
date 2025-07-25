@@ -11,7 +11,7 @@ parser.add_argument("--ext_fname", required=False, help="subset of the output im
 params = parser.parse_args()
 
 # define directories
-model_dir = "models/output/savedmodel_" + params.model_name
+model_dir = "deep-dunes/models/output/savedmodel_" + params.model_name
 input_file = params.data_folder + params.img_type + ".tif"
 output_file = params.data_folder + "map_" + params.img_type + ".tif"
 

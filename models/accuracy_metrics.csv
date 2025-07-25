@@ -1,0 +1,26 @@
+Metric,Class,Value,CNN,Image Type
+Overall Accuracy,overall,0.875,cnn-01,rgb
+Cohen's Kappa,overall,0.8333333333333334,cnn-01,rgb
+Average Precision,overall,0.8773182957393484,cnn-01,rgb
+Average Recall,overall,0.875,cnn-01,rgb
+Average F-Score,overall,0.8758911819887429,cnn-01,rgb
+Precision,0,0.85,cnn-01,rgb
+Recall,0,0.85,cnn-01,rgb
+F-Score,0,0.85,cnn-01,rgb
+Producer's Accuracy,0,0.85,cnn-01,rgb
+User's Accuracy,0,0.85,cnn-01,rgb
+Precision,1,0.7619047619047619,cnn-01,rgb
+Recall,1,0.8,cnn-01,rgb
+F-Score,1,0.7804878048780488,cnn-01,rgb
+Producer's Accuracy,1,0.8,cnn-01,rgb
+User's Accuracy,1,0.7619047619047619,cnn-01,rgb
+Precision,2,0.9473684210526315,cnn-01,rgb
+Recall,2,0.9,cnn-01,rgb
+F-Score,2,0.9230769230769231,cnn-01,rgb
+Producer's Accuracy,2,0.9,cnn-01,rgb
+User's Accuracy,2,0.9473684210526315,cnn-01,rgb
+Precision,3,0.95,cnn-01,rgb
+Recall,3,0.95,cnn-01,rgb
+F-Score,3,0.9500000000000001,cnn-01,rgb
+Producer's Accuracy,3,0.95,cnn-01,rgb
+User's Accuracy,3,0.95,cnn-01,rgb
