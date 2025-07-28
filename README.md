@@ -17,7 +17,7 @@ Steps for using OTBTF from Docker:
 docker pull mdl4eo/otbtf:latest
 ```
 
-3) start a container from the OTBTF image, create a persistent volume for python libraries and install the required libraries:
+2) start a container from the OTBTF image, create a persistent volume for python libraries and install the required libraries:
 ```bash
 docker volume create python_packages
 docker run -it --platform=linux/amd64 -v ~/Desktop/deep-dunes:/data -v python_packages:/Users/emilpaf/Library/Python/3.9/lib/python/site-packages mdl4eo/otbtf:latest /bin/bash
@@ -35,7 +35,7 @@ Libraries needed:
 - scikit-learn
 - numpy
 
-2) start the container you have created using its name (es. priceless_goodall):
+3) start the container you have created using its name (es. priceless_goodall):
 ```bash
 docker ps -a
 docker start priceless_goodall
