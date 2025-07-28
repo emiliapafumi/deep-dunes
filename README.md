@@ -4,9 +4,9 @@ This repository contains code to perform semantic segmentation of remote sensing
 
 ## Structure of the project
 
-- `scripts/` — Directory for python scripts to use for sampling remote sensing data, training a CNN model and performing inference.
+- `scripts/` — Directory for python scripts to use for sampling remote sensing data, training a CNN model, performing inference and validation.
 - `models/` — Directory for saved models, logs and checkpoints.
-- `data/` — Directory for input and output data. This folder is available at this link: https://drive.google.com/drive/folders/1krYQ6T-wg3J54ZcwJ8tcnwlp4-mPcgFa?usp=share_link 
+- `deep-dunes-data/` — Directory for input and output data. This folder is available at this link: https://drive.google.com/drive/folders/1krYQ6T-wg3J54ZcwJ8tcnwlp4-mPcgFa?usp=share_link 
 
 ## Usage
 ### Pre-requisites
@@ -58,6 +58,7 @@ python deep-dunes/scripts/3-inference.py --data_folder data/dune-uav/ --model_na
 python deep-dunes/scripts/4-validation.py --data_folder data/dune-uav/ --model_name cnn-01 --img_type rgb
 ```
 note: script is used to save a log.  
+  
 Models created with these scripts:
 - CNN-01: input = dune-uav/rgb.tif
 - CNN-02: input = dune-uav/multi.tif
@@ -66,8 +67,7 @@ Models created with these scripts:
 - CNN-05: input = dune-ge/rgb.tif
 - CNN-06: input = dune-wv/rgb.tif
 - CNN-07: input = dune-wv/multi.tif
- 
-
+  
 
 ## Notes
 The processing is based on the OTBTF/keras tutorial: https://otb-keras-tutorial.readthedocs.io/en/latest/ 
