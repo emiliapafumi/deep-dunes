@@ -1,0 +1,85 @@
+Script started on 2025-07-28 15:16:20+00:00 [TERM="xterm" TTY="/dev/pts/3" COLUMNS="120" LINES="25"]
+$ python deep-dunes/scripts/3-inference.py \
+    --d> ata_folder deep-dunes-data/dune-uav/ \
+    --model> _name cnn-01 --img_type rgb
+2025-07-28 15:16:27.426670: I tensorflow/core/util/port.cc:111] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2025-07-28 15:16:27 (INFO) [pyotb] Successfully loaded 117 OTB applications
+2025-07-28 15:16:27 (INFO) [pyotb] TensorflowModelServe: argument for parameter "source1.il" was converted to list
+2025-07-28 15:16:27 (INFO) [pyotb] TensorflowModelServe: argument for parameter "output.names" was converted to list
+2025-07-28 15:16:27.550026: I tensorflow/cc/saved_model/reader.cc:83] Reading SavedModel from: deep-dunes/models/output/savedmodel_cnn-01
+2025-07-28 15:16:27.558478: I tensorflow/cc/saved_model/reader.cc:51] Reading meta graph with tags { serve }
+2025-07-28 15:16:27.558509: I tensorflow/cc/saved_model/reader.cc:146] Reading SavedModel debug info (if present) from: deep-dunes/models/output/savedmodel_cnn-01
+2025-07-28 15:16:27.559991: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE3 SSE4.1 SSE4.2 AVX AVX2 AVX_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2025-07-28 15:16:27.589771: I tensorflow/compiler/mlir/mlir_graph_optimization_pass.cc:382] MLIR V1 optimization pass is not enabled
+2025-07-28 15:16:27.592595: I tensorflow/cc/saved_model/loader.cc:233] Restoring SavedModel bundle.
+2025-07-28 15:16:27.691489: I tensorflow/tsl/profiler/lib/profiler_session.cc:104] Profiler session initializing.
+2025-07-28 15:16:27.691533: I tensorflow/tsl/profiler/lib/profiler_session.cc:119] Profiler session started.
+2025-07-28 15:16:27.729354: I tensorflow/tsl/profiler/lib/profiler_session.cc:70] Profiler session collecting data.
+2025-07-28 15:16:27.729398: W tensorflow/core/profiler/convert/xplane_to_step_stats.cc:78] GPU trace was not collected.
+2025-07-28 15:16:27.729467: I tensorflow/tsl/profiler/lib/profiler_session.cc:131] Profiler session tear down.
+2025-07-28 15:16:27.729880: I tensorflow/cc/saved_model/loader.cc:217] Running initialization op on SavedModel bundle at path: deep-dunes/models/output/savedmodel_cnn-01
+2025-07-28 15:16:27.757553: I tensorflow/tsl/profiler/lib/profiler_session.cc:104] Profiler session initializing.
+2025-07-28 15:16:27.757612: I tensorflow/tsl/profiler/lib/profiler_session.cc:119] Profiler session started.
+2025-07-28 15:16:27.757740: I tensorflow/tsl/profiler/lib/profiler_session.cc:70] Profiler session collecting data.
+2025-07-28 15:16:27.757771: W tensorflow/core/profiler/convert/xplane_to_step_stats.cc:78] GPU trace was not collected.
+2025-07-28 15:16:27.757790: I tensorflow/tsl/profiler/lib/profiler_session.cc:131] Profiler session tear down.
+2025-07-28 15:16:27.757835: I tensorflow/cc/saved_model/loader.cc:316] SavedModel load for tags { serve }; Status: success: OK. Took 207817 microseconds.
+2025-07-28 15:16:27 (INFO): Loading metadata from official product
+2025-07-28 15:16:27 (INFO) TensorflowModelServe: Source info :
+2025-07-28 15:16:27 (INFO) TensorflowModelServe: Receptive field  : [100, 100]
+2025-07-28 15:16:27 (INFO) TensorflowModelServe: Placeholder name : input_img
+2025-07-28 15:16:27 (INFO) TensorflowModelServe: Output spacing ratio: 1
+2025-07-28 15:16:27 (INFO) TensorflowModelServe: The TensorFlow model is used in fully convolutional mode
+2025-07-28 15:16:27 (INFO) TensorflowModelServe: Setting background value to 0
+2025-07-28 15:16:27 (INFO) TensorflowModelServe: Output field of expression: [68, 68]
+2025-07-28 15:16:27 (WARNING) TensorflowModelServe: Aligning the tiling to the output expression field for better performances (dim 0). New value set to 68
+2025-07-28 15:16:27 (WARNING) TensorflowModelServe: Aligning the tiling to the output expression field for better performances (dim 1). New value set to 68
+2025-07-28 15:16:27 (INFO) TensorflowModelServe: Force tiling with squared tiles of [68, 68]
+2025-07-28 15:16:27 (WARNING) [pyotb] TensorflowModelServe: overwriting file deep-dunes-data/dune-uav/map_rgb.tif
+2025-07-28 15:16:27 (INFO): Default RAM limit for OTB is 256 MB
+2025-07-28 15:16:27 (INFO): GDAL maximum cache size is 791 MB
+2025-07-28 15:16:27 (INFO): OTB will use at most 24 threads
+2025-07-28 15:16:27 (INFO): Estimated memory for full processing: 130928MB (avail.: 256 MB), optimal image partitioning: 512 blocks
+2025-07-28 15:16:27 (INFO): File deep-dunes-data/dune-uav/map_rgb.tif will be written in 532 blocks of 1328x1328 pixels
+Writing deep-dunes-data/dune-uav/map_rgb.tif...: 0% [                                                  ]
+Writing deep-dunes-data/dune-uav/map_rgb.tif...: 2% [*                                                 ]Writing deep-dunes-data/dune-uav/map_rgb.tif...: 4% [**                                                ]Writing deep-dunes-data/dune-uav/map_rgb.tif...: 6% [***                                               ]Writing deep-dunes-data/dune-uav/map_rgb.tif...: 8% [****                                              ]Writing deep-dunes-data/dune-uav/map_rgb.tif...: 10% [*****                                             ]Writing deep-dunes-data/dune-uav/map_rgb.tif...: 12% [******                                            ]Writing deep-dunes-data/dune-uav/map_rgb.tif...: 14% [*******                                           ]Writing deep-dunes-data/dune-uav/map_rgb.tif...: 16% [********                                          ]Writing deep-dunes-data/dune-uav/map_rgb.tif...: 18% [*********                                         ]Writing deep-dunes-data/dune-uav/map_rgb.tif...: 20% [**********                                        ]
+^C
+terminate called after throwing an instance of 'Swig::Di:16:27.550026: I tensorflow/cc/saved_model/reader.cc:83] Reading SavedModel from: deep-dunes/models/output/savedmodel_cnn-01
+2025-07-28 15:16:27.558478: I tensorflow/cc/saved_model/reader.cc:51] Reading meta graph with tags { serve }
+2025-07-28 15:16:27.558509: I tensorflow/cc/saved_model/reader.cc:146] Reading SavedModel debug info (if present) from: deep-dunes/models/output/savedmodel_cnn-01
+2025-07-28 15:16:27.559991: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE3 SSE4.1 SSE4.2 AVX AVX2 AVX_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2025-07-28 15:16:27.589771: I tensorflow/compiler/mlir/mlir_graph_optimization_pass.cc:382] MLIR V1 optimization pass is not enabled
+2025-07-28 15:16:27.592595: I tensorflow/cc/saved_model/loader.cc:233] Restoring SavedModel bundle.
+2025-07-28 15:16:27.691489: I tensorflow/tsl/profiler/lib/profiler_session.cc:104] Profiler session initializing.
+2025-07-28 15:16:27.691533: I tensorflow/tsl/profiler/lib/profiler_session.cc:119] Profiler session started.
+2025-07-28 15:16:27.729354: I tensorflow/tsl/profiler/lib/profiler_session.cc:70] Profiler session collecting data.
+2025-07-28 15:16:27.729398: W tensorflow/core/profiler/convert/xplane_to_step_stats.cc:78] GPU trace was not collected.
+2025-07-28 15:16:27.729467: I tensorflow/tsl/profiler/lib/profiler_session.cc:131] Profiler session tear down.
+2025-07-28 15:16:27.729880: I tensorflow/cc/saved_model/loader.cc:217] Running initialization op on SavedModel bundle at path: deep-dunes/models/output/savedmodel_cnn-01
+2025-07-28 15:16:27.757553: I tensorflow/tsl/profiler/lib/profiler_session.cc:104] Profiler session initializing.
+2025-07-28 15:16:27.757612: I tensorflow/tsl/profiler/lib/profiler_session.cc:119] Profiler session started.
+2025-07-28 15:16:27.757740: I tensorflow/tsl/profiler/lib/profiler_session.cc:70] Profiler session collecting data.
+2025-07-28 15:16:27.757771: W tensorflow/core/profiler/convert/xplane_to_step_stats.cc:78] GPU trace was not collected.
+2025-07-28 15:16:27.757790: I tensorflow/tsl/profiler/lib/profiler_session.cc:131] Profiler session tear down.
+2025-07-28 15:16:27.757835: I tensorflow/cc/saved_model/loader.cc:316] SavedModel load for tags { serve }; Status: success: OK. Took 207817 microseconds.
+2025-07-28 15:16:27 (INFO): Loading metadata from official product
+2025-07-28 15:16:27 (INFO) TensorflowModelServe: Source info :
+2025-07-28 15:16:27 (INFO) TensorflowModelServe: Receptive field  : [100, 100]
+2025-07-28 15:16:27 (INFO) TensorflowModelServe: Placeholder name : input_img
+2025-07-28 15:16:27 (INFO) TensorflowModelServe: Output spacing ratio: 1
+2025-07-28 15:16:27 (INFO) TensorflowModelServe: The TensorFlow model is used in fully convolutional mode
+2025-07-28 15:16:27 (INFO) TensorflowModelServe: Setting background value to 0
+2025-07-28 15:16:27 (INFO) TensorflowModelServe: Output field of expression: [68, 68]
+2025-07-28 15:16:27 (WARNING) TensorflowModelServe: Aligning the tiling to the output expression field for better performances (dim 0). New value set to 68
+2025-07-28 15:16:27 (WARNING) TensorflowModelServe: Aligning the tiling to the output expression field for better performances (dim 1). New value set to 68
+2025-07-28 15:16:27 (INFO) TensorflowModelServe: Force tiling with squared tiles of [68, 68]
+2025-07-28 15:16:27 (WARNING) [pyotb] TensorflowModelServe: overwriting file deep-dunes-data/dune-uav/map_rgb.tif
+2025-07-28 15:16:27 (INFO): Default RAM limit for OTB is 256 MB
+2025-07-28 15:16:27 (INFO): GDAL maximum cache size is 791 MB
+2025-07-28 15:16:27 (INFO): OTB will use at most 24 threads
+2025-07-28 15:16:27 (INFO): Estimated memory for full processing: 130928MB (avail.: 256 MB), optimal image partitioning: 512 blocks
+2025-07-28 15:16:27 (INFO): File deep-dunes-data/dune-uav/map_rgb.tif will be written in 532 blocks of 1328x1328 pixels
+Writing deep-dunes-data/dune-uav/map_rgb.tif...: 0% [                                                  ]
+Writing deep-dunes-data/dune-uav/map_rgb.tif...: 2% [*                                                 ]Writing deep-dunes-data/dune-uav/map_rgb.tif...: 4% [**                                                ]Writing deep-dunes-data/dune-uav/map_rgb.tif...: 6% [***                                               ]Writing deep-dunes-data/dune-uav/map_rgb.tif...: 8% [****                                              ]Writing deep-dunes-data/dune-uav/map_rgb.tif...: 10% [*****                                             ]Writing deep-dunes-data/dune-uav/map_rgb.tif...: 12% [******                                            ]Writing deep-dunes-data/dune-uav/map_rgb.tif...: 14% [*******                                           ]Writing deep-dunes-data/dune-uav/map_rgb.tif...: 16% [********                                          ]Writing deep-dunes-data/dune-uav/map_rgb.tif...: 18% [*********                                         ]

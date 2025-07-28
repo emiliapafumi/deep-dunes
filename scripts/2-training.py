@@ -66,7 +66,7 @@ def conv(inp, depth, name, strides=1):
     return conv_op(inp)
 
 
-def tconv(inp, depth, name, strides=2, activation="relu"):
+def tconv(inp, depth, name, strides=1, activation="relu"):
     tconv_op = tf.keras.layers.Conv2DTranspose(
         filters=depth,
         kernel_size=3,
@@ -100,13 +100,11 @@ class FCNNModel(otbtf.ModelBase):
         # Encoder
         cv1 = conv(norm_inp, 64, "conv1")
         cv1 = BatchNormalization()(cv1)
-        mp1 = tf.keras.layers.MaxPooling2D(pool_size=(2, 2))(cv1)
 
-        cv2 = conv(mp1, 128, "conv2") 
+        cv2 = conv(cv1, 128, "conv2") 
         cv2 = BatchNormalization()(cv2)
-        mp2 = tf.keras.layers.MaxPooling2D(pool_size=(2, 2))(cv2)
 
-        cv3 = conv(mp2, 256, "conv3")
+        cv3 = conv(cv2, 256, "conv3")
         cv3 = BatchNormalization()(cv3)
 
         # Decoder
