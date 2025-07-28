@@ -58,6 +58,14 @@ python deep-dunes/scripts/3-inference.py --data_folder data/dune-uav/ --model_na
 python deep-dunes/scripts/4-validation.py --data_folder data/dune-uav/ --model_name cnn-01 --img_type rgb
 ```
 note: script is used to save a log
+Models created with these scripts:
+- CNN-01: input = dune-uav/rgb.tif
+- CNN-02: input = dune-uav/multi.tif
+- CNN-03: input = dune-air/rgb.tif
+- CNN-04: input = dune-air/multi.tif
+- CNN-05: input = dune-ge/rgb.tif
+- CNN-06: input = dune-wv/rgb.tif
+- CNN-07: input = dune-wv/multi.tif
  
 
 
