@@ -42,13 +42,13 @@ docker start priceless_goodall
 docker exec -it priceless_goodall /bin/bash
 cd /data/
 ```
-
+  
 ### Steps to produce habitat maps:
 1) sampling: to extract patches corresponding to the ground truth squares (2 m x 2 m) from each remote sensing dataset;
 2) model training: to train a CNN model with U-Net architecture;
 3) inference: to produce the final habitat map using a trained CNN model;
 4) validation: to compute accuracy metrics.
-
+  
 Example of use on RGB imagery from UAV dataset (model CNN-01):
 ```bash
 python deep-dunes/scripts/1-sampling.py --data_folder data/dune-uav/ --patch_size 100
