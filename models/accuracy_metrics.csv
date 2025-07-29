@@ -1,4 +1,54 @@
 Metric,Class,Value,CNN,Image Type
+Overall Accuracy,overall,0.8875,cnn-01,rgb
+Cohen's Kappa,overall,0.85,cnn-01,rgb
+Average Precision,overall,0.887844612,cnn-01,rgb
+Average Recall,overall,0.8875,cnn-01,rgb
+Average F-Score,overall,0.887116948,cnn-01,rgb
+Precision,0,0.857142857,cnn-01,rgb
+Recall,0,0.9,cnn-01,rgb
+F-Score,0,0.87804878,cnn-01,rgb
+Producer's Accuracy,0,0.9,cnn-01,rgb
+User's Accuracy,0,0.857142857,cnn-01,rgb
+Precision,1,0.842105263,cnn-01,rgb
+Recall,1,0.8,cnn-01,rgb
+F-Score,1,0.820512821,cnn-01,rgb
+Producer's Accuracy,1,0.8,cnn-01,rgb
+User's Accuracy,1,0.842105263,cnn-01,rgb
+Precision,2,0.904761905,cnn-01,rgb
+Recall,2,0.95,cnn-01,rgb
+F-Score,2,0.926829268,cnn-01,rgb
+Producer's Accuracy,2,0.95,cnn-01,rgb
+User's Accuracy,2,0.904761905,cnn-01,rgb
+Precision,3,0.947368421,cnn-01,rgb
+Recall,3,0.9,cnn-01,rgb
+F-Score,3,0.923076923,cnn-01,rgb
+Producer's Accuracy,3,0.9,cnn-01,rgb
+User's Accuracy,3,0.947368421,cnn-01,rgb
+Overall Accuracy,overall,0.9,cnn-02,multi
+Cohen's Kappa,overall,0.866666667,cnn-02,multi
+Average Precision,overall,0.90218254,cnn-02,multi
+Average Recall,overall,0.9,cnn-02,multi
+Average F-Score,overall,0.900208601,cnn-02,multi
+Precision,0,0.944444444,cnn-02,multi
+Recall,0,0.85,cnn-02,multi
+F-Score,0,0.894736842,cnn-02,multi
+Producer's Accuracy,0,0.85,cnn-02,multi
+User's Accuracy,0,0.944444444,cnn-02,multi
+Precision,1,0.80952381,cnn-02,multi
+Recall,1,0.85,cnn-02,multi
+F-Score,1,0.829268293,cnn-02,multi
+Producer's Accuracy,1,0.85,cnn-02,multi
+User's Accuracy,1,0.80952381,cnn-02,multi
+Precision,2,0.904761905,cnn-02,multi
+Recall,2,0.95,cnn-02,multi
+F-Score,2,0.926829268,cnn-02,multi
+Producer's Accuracy,2,0.95,cnn-02,multi
+User's Accuracy,2,0.904761905,cnn-02,multi
+Precision,3,0.95,cnn-02,multi
+Recall,3,0.95,cnn-02,multi
+F-Score,3,0.95,cnn-02,multi
+Producer's Accuracy,3,0.95,cnn-02,multi
+User's Accuracy,3,0.95,cnn-02,multi
 Overall Accuracy,overall,0.86,cnn-03,rgb
 Cohen's Kappa,overall,0.825,cnn-03,rgb
 Average Precision,overall,0.894857143,cnn-03,rgb
@@ -89,63 +139,63 @@ Recall,4,1,cnn-05,rgb
 F-Score,4,1,cnn-05,rgb
 Producer's Accuracy,4,1,cnn-05,rgb
 User's Accuracy,4,1,cnn-05,rgb
-Overall Accuracy,overall,0.37777777777777777,cnn-06,rgb
-Cohen's Kappa,overall,0.21739130434782605,cnn-06,rgb
-Average Precision,overall,0.4597014925373134,cnn-06,rgb
-Average Recall,overall,0.44000000000000006,cnn-06,rgb
-Average F-Score,overall,0.32461395564843837,cnn-06,rgb
-Precision,0,0.29850746268656714,cnn-06,rgb
-Recall,0,1.0,cnn-06,rgb
-F-Score,0,0.45977011494252873,cnn-06,rgb
-Producer's Accuracy,0,1.0,cnn-06,rgb
-User's Accuracy,0,0.29850746268656714,cnn-06,rgb
-Precision,1,0.0,cnn-06,rgb
-Recall,1,0.0,cnn-06,rgb
-F-Score,1,0.0,cnn-06,rgb
-Producer's Accuracy,1,0.0,cnn-06,rgb
-User's Accuracy,1,0.0,cnn-06,rgb
-Precision,2,0.2857142857142857,cnn-06,rgb
+Overall Accuracy,overall,0.377777778,cnn-06,rgb
+Cohen's Kappa,overall,0.217391304,cnn-06,rgb
+Average Precision,overall,0.459701493,cnn-06,rgb
+Average Recall,overall,0.44,cnn-06,rgb
+Average F-Score,overall,0.324613956,cnn-06,rgb
+Precision,0,0.298507463,cnn-06,rgb
+Recall,0,1,cnn-06,rgb
+F-Score,0,0.459770115,cnn-06,rgb
+Producer's Accuracy,0,1,cnn-06,rgb
+User's Accuracy,0,0.298507463,cnn-06,rgb
+Precision,1,0,cnn-06,rgb
+Recall,1,0,cnn-06,rgb
+F-Score,1,0,cnn-06,rgb
+Producer's Accuracy,1,0,cnn-06,rgb
+User's Accuracy,1,0,cnn-06,rgb
+Precision,2,0.285714286,cnn-06,rgb
 Recall,2,0.1,cnn-06,rgb
-F-Score,2,0.14814814814814817,cnn-06,rgb
+F-Score,2,0.148148148,cnn-06,rgb
 Producer's Accuracy,2,0.1,cnn-06,rgb
-User's Accuracy,2,0.2857142857142857,cnn-06,rgb
-Precision,3,1.0,cnn-06,rgb
+User's Accuracy,2,0.285714286,cnn-06,rgb
+Precision,3,1,cnn-06,rgb
 Recall,3,0.1,cnn-06,rgb
-F-Score,3,0.18181818181818182,cnn-06,rgb
+F-Score,3,0.181818182,cnn-06,rgb
 Producer's Accuracy,3,0.1,cnn-06,rgb
-User's Accuracy,3,1.0,cnn-06,rgb
-Precision,4,0.7142857142857143,cnn-06,rgb
-Recall,4,1.0,cnn-06,rgb
-F-Score,4,0.8333333333333333,cnn-06,rgb
-Producer's Accuracy,4,1.0,cnn-06,rgb
-User's Accuracy,4,0.7142857142857143,cnn-06,rgb
-Overall Accuracy,overall,0.7333333333333333,cnn-07,multi
-Cohen's Kappa,overall,0.6661514683153014,cnn-07,multi
-Average Precision,overall,0.7908988070752778,cnn-07,multi
+User's Accuracy,3,1,cnn-06,rgb
+Precision,4,0.714285714,cnn-06,rgb
+Recall,4,1,cnn-06,rgb
+F-Score,4,0.833333333,cnn-06,rgb
+Producer's Accuracy,4,1,cnn-06,rgb
+User's Accuracy,4,0.714285714,cnn-06,rgb
+Overall Accuracy,overall,0.733333333,cnn-07,multi
+Cohen's Kappa,overall,0.666151468,cnn-07,multi
+Average Precision,overall,0.790898807,cnn-07,multi
 Average Recall,overall,0.76,cnn-07,multi
-Average F-Score,overall,0.7111851111851113,cnn-07,multi
+Average F-Score,overall,0.711185111,cnn-07,multi
 Precision,0,0.625,cnn-07,multi
-Recall,0,1.0,cnn-07,multi
-F-Score,0,0.7692307692307693,cnn-07,multi
-Producer's Accuracy,0,1.0,cnn-07,multi
+Recall,0,1,cnn-07,multi
+F-Score,0,0.769230769,cnn-07,multi
+Producer's Accuracy,0,1,cnn-07,multi
 User's Accuracy,0,0.625,cnn-07,multi
-Precision,1,1.0,cnn-07,multi
+Precision,1,1,cnn-07,multi
 Recall,1,0.3,cnn-07,multi
-F-Score,1,0.4615384615384615,cnn-07,multi
+F-Score,1,0.461538462,cnn-07,multi
 Producer's Accuracy,1,0.3,cnn-07,multi
-User's Accuracy,1,1.0,cnn-07,multi
-Precision,2,0.9230769230769231,cnn-07,multi
+User's Accuracy,1,1,cnn-07,multi
+Precision,2,0.923076923,cnn-07,multi
 Recall,2,0.6,cnn-07,multi
-F-Score,2,0.7272727272727274,cnn-07,multi
+F-Score,2,0.727272727,cnn-07,multi
 Producer's Accuracy,2,0.6,cnn-07,multi
-User's Accuracy,2,0.9230769230769231,cnn-07,multi
-Precision,3,0.8181818181818182,cnn-07,multi
+User's Accuracy,2,0.923076923,cnn-07,multi
+Precision,3,0.818181818,cnn-07,multi
 Recall,3,0.9,cnn-07,multi
-F-Score,3,0.8571428571428572,cnn-07,multi
+F-Score,3,0.857142857,cnn-07,multi
 Producer's Accuracy,3,0.9,cnn-07,multi
-User's Accuracy,3,0.8181818181818182,cnn-07,multi
-Precision,4,0.5882352941176471,cnn-07,multi
-Recall,4,1.0,cnn-07,multi
-F-Score,4,0.7407407407407407,cnn-07,multi
-Producer's Accuracy,4,1.0,cnn-07,multi
-User's Accuracy,4,0.5882352941176471,cnn-07,multi
+User's Accuracy,3,0.818181818,cnn-07,multi
+Precision,4,0.588235294,cnn-07,multi
+Recall,4,1,cnn-07,multi
+F-Score,4,0.740740741,cnn-07,multi
+Producer's Accuracy,4,1,cnn-07,multi
+User's Accuracy,4,0.588235294,cnn-07,multi
