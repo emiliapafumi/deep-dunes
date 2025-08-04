@@ -17,8 +17,13 @@ parser.add_argument("--class_nb", type=int, default=5, help="Number of classes")
 parser.add_argument("--learning_rate", type=float, default=0.0002)
 parser.add_argument("--epochs", type=int, default=50)
 parser.add_argument("--batch_size", type=int, default=8, help="Batch size for training")
+parser.add_argument("--upsampling", action="store_true", help="Use U-Net architecture with MaxPooling and upsampling (default: False = simple FCNN)")
 params = parser.parse_args()
 tf.get_logger().setLevel('ERROR')
+
+# Print architecture info
+arch_type = "U-Net (with MaxPooling/upsampling)" if params.upsampling else "Simple FCNN (no MaxPooling)"
+print(f"Using architecture: {arch_type}")
 
 # define directories
 model_dir = "deep-dunes/models/output/savedmodel_" + params.model_name
@@ -81,6 +86,10 @@ def tconv(inp, depth, name, strides=1, activation="relu"):
 
 class FCNNModel(otbtf.ModelBase):
     
+    def __init__(self, use_upsampling=False, **kwargs):
+        self.use_upsampling = use_upsampling
+        super().__init__(**kwargs)
+    
     def normalize_inputs(self, inputs):
         input_img = inputs[inp_key]
         if input_img.dtype == tf.uint8:
@@ -97,24 +106,50 @@ class FCNNModel(otbtf.ModelBase):
 
     def get_outputs(self, normalized_inputs):
         norm_inp = normalized_inputs[inp_key]
-        # Encoder
-        cv1 = conv(norm_inp, 64, "conv1")
-        cv1 = BatchNormalization()(cv1)
+        
+        if self.use_upsampling:
+            # U-Net architecture with MaxPooling and upsampling
+            # Encoder
+            cv1 = conv(norm_inp, 64, "conv1")
+            cv1 = BatchNormalization()(cv1)
+            mp1 = tf.keras.layers.MaxPooling2D(pool_size=(2, 2))(cv1)
 
-        cv2 = conv(cv1, 128, "conv2") 
-        cv2 = BatchNormalization()(cv2)
+            cv2 = conv(mp1, 128, "conv2") 
+            cv2 = BatchNormalization()(cv2)
+            mp2 = tf.keras.layers.MaxPooling2D(pool_size=(2, 2))(cv2)
 
-        cv3 = conv(cv2, 256, "conv3")
-        cv3 = BatchNormalization()(cv3)
+            cv3 = conv(mp2, 256, "conv3")
+            cv3 = BatchNormalization()(cv3)
 
-        # Decoder
-        cv1t = tconv(cv3, 128, "conv1t") + cv2
-        cv1t = BatchNormalization()(cv1t)
+            # Decoder with upsampling
+            cv1t = tconv(cv3, 128, "conv1t", strides=2) + cv2
+            cv1t = BatchNormalization()(cv1t)
 
-        cv2t = tconv(cv1t, 64, "conv2t") + cv1
-        cv2t = BatchNormalization()(cv2t)
+            cv2t = tconv(cv1t, 64, "conv2t", strides=2) + cv1
+            cv2t = BatchNormalization()(cv2t)
 
-        cv3t = tconv(cv2t, class_nb, "softmax_layer", strides=1, activation="softmax")
+            cv3t = tconv(cv2t, class_nb, "softmax_layer", strides=1, activation="softmax")
+        else:
+            # Simple FCNN architecture without MaxPooling
+            # Encoder
+            cv1 = conv(norm_inp, 64, "conv1")
+            cv1 = BatchNormalization()(cv1)
+
+            cv2 = conv(cv1, 128, "conv2") 
+            cv2 = BatchNormalization()(cv2)
+
+            cv3 = conv(cv2, 256, "conv3")
+            cv3 = BatchNormalization()(cv3)
+
+            # Decoder
+            cv1t = tconv(cv3, 128, "conv1t") + cv2
+            cv1t = BatchNormalization()(cv1t)
+
+            cv2t = tconv(cv1t, 64, "conv2t") + cv1
+            cv2t = BatchNormalization()(cv2t)
+
+            cv3t = tconv(cv2t, class_nb, "softmax_layer", strides=1, activation="softmax")
+        
         argmax_op = otbtf.layers.Argmax(name="argmax_layer")
         
         return {tgt_key: cv3t, "estimated_labels": argmax_op(cv3t)}
@@ -124,7 +159,7 @@ def train(params, ds_train, ds_valid, ds_test):
     strategy = tf.distribute.MirroredStrategy()
     
     with strategy.scope():
-        model = FCNNModel(dataset_element_spec=ds_train.element_spec)
+        model = FCNNModel(use_upsampling=params.upsampling, dataset_element_spec=ds_train.element_spec)
         # Precision and recall for each class
         metrics = [
             cls(class_id=class_id)

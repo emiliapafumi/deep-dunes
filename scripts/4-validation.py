@@ -16,7 +16,7 @@ from tensorboard.backend.event_processing import event_accumulator
 from tensorboard.compat.proto import tensor_pb2
 from tensorboard.util import tensor_util
 
-# === PARAMETERS - PARSER ===
+# Parameters parser
 parser = argparse.ArgumentParser(description="Assess accuracy")
 parser.add_argument("--data_folder", required=True, help="Folder containing data")
 parser.add_argument("--model_name", required=True, help="model name")
@@ -33,11 +33,11 @@ shapefile_path = f"{data_folder}/vec_valid.geojson"
 geotiff_path = f"{data_folder}/map_{img_type}.tif"
 
 
-# === 1. Load ground truth shapefile and select AOI ===
+# Load ground truth shapefile
 gdf = gpd.read_file(shapefile_path)
 print(f"{len(gdf)} ground truth points found.")
 
-# === 2. Load classified GeoTIFF ===
+# Load classified GeoTIFF
 with rasterio.open(geotiff_path) as src:
     coords = [(x,y) for x,y in zip(gdf.geometry.x, gdf.geometry.y)]
     resolution = src.transform[0]
@@ -89,10 +89,10 @@ with rasterio.open(geotiff_path) as src:
     predicted_values_mode = get_predicted_mode(predicted_mask, gdf, src, plot_side_pixels)
 
 
-# === 3. Extract true classes (from 'class' field) ===
+# Extract true classes (from 'class' field)
 actual_values = gdf["class"].to_numpy()
 
-# === 4. Calculate Accuracy ===
+# Calculate Accuracy
 labels = np.unique(np.concatenate([actual_values, predicted_values]))
 cm = confusion_matrix(actual_values, predicted_values)
 oa = accuracy_score(actual_values, predicted_values)
@@ -110,7 +110,7 @@ recall_average = np.nanmean(recall)
 FScore_average = np.nanmean(FScore)
 
 
-# === 5. Print results ===
+# Print results
 print("\nConfusion Matrix:")
 print(cm)
 print(f"\nOverall Accuracy: {oa:.3f}")
@@ -122,7 +122,7 @@ for i, label in enumerate(labels):
     print(f"Class {label} — Producer's: {producer_accuracy[i]:.2f}, User's: {user_accuracy[i]:.2f}, Precision: {precision[i]:.2f}, Recall: {recall[i]:.2f}, F-Score: {FScore[i]:.2f}")
 
 
-# === 6. Export metrics to csv file ===
+# Export metrics to csv file
 metrics_list = []
 
 # Global metrics
@@ -151,7 +151,8 @@ df_metrics.to_csv(metrics_file, mode='a', header=write_header, index=False)
 print(f"\nMetrics saved to {metrics_file}\n")
 
 
-# === 7. Download data from TensorBoard  ===
+
+# Download data from TensorBoard
 
 log_dir = f"deep-dunes/models/logs/savedmodel_{model_name}/validation/"
 ea = event_accumulator.EventAccumulator(log_dir)
