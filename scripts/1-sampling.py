@@ -8,6 +8,8 @@ from sklearn.model_selection import train_test_split
 from pathlib import Path
 import argparse
 
+from setup import setup
+
 parser = argparse.ArgumentParser(description="Sampling EUNIS ground truth data")
 parser.add_argument("--data_folder", required=True, help="Folder containing data")
 parser.add_argument("--patch_size", type=int, default=100, help="Size of patches to extract")
@@ -15,7 +17,8 @@ parser.add_argument("--epsg_code", type=int, default=32632, help="EPSG code for 
 args = parser.parse_args()
 
 # load input raster and shapefile data
-data_folder = Path(args.data_folder)
+setup(directory_name=args.data_folder)
+data_folder = Path(f"deep-dunes-data/{args.data_folder}")
 img_rgb_path = data_folder / "rgb.tif"
 img_multi_path = data_folder / "multi.tif"
 shapefile_path = data_folder / "ground_truth.shp"
@@ -31,10 +34,10 @@ test_list = []
 for class_value, group in points_gdf.groupby('class'):
     # split into 60% training and 40% testing
     train, temp = train_test_split(group, test_size=0.4, random_state=42, stratify=None)
-    
+
     # split the testing set into 50% testing and 50% validation
     valid, test = train_test_split(temp, test_size=0.5, random_state=42, stratify=None)
-    
+
     train_list.append(train)
     valid_list.append(valid)
     test_list.append(test)
@@ -128,7 +131,7 @@ def stack_patches(patch_list, label_list, out_img_path, out_lbl_path):
         "count": bands,
         "dtype": stacked_img.dtype,
         "crs": f"EPSG:{args.epsg_code}",
-        "transform": rasterio.transform.from_origin(0, 0, 1, 1) 
+        "transform": rasterio.transform.from_origin(0, 0, 1, 1)
     }
 
     with rasterio.open(out_img_path, "w", **meta) as dst:
@@ -141,7 +144,7 @@ def stack_patches(patch_list, label_list, out_img_path, out_lbl_path):
             dst.write(stacked_lbl)
 
 
-# Apply to each split 
+# Apply to each split
 for split_name, split_gdf in splits.items():
     print(f"Processing {split_name}...")
 

@@ -16,6 +16,8 @@ from tensorboard.backend.event_processing import event_accumulator
 from tensorboard.compat.proto import tensor_pb2
 from tensorboard.util import tensor_util
 
+from setup import setup
+
 # Parameters parser
 parser = argparse.ArgumentParser(description="Assess accuracy")
 parser.add_argument("--data_folder", required=True, help="Folder containing data")
@@ -23,7 +25,9 @@ parser.add_argument("--model_name", required=True, help="model name")
 parser.add_argument("--img_type", choices=["rgb", "multi"], default="rgb", help="Type of input image")
 params = parser.parse_args()
 
-data_folder = params.data_folder
+setup(directory_name=params.data_folder)
+data_folder = f"deep-dunes-data/{params.data_folder}"
+
 model_name = params.model_name
 img_type = params.img_type
 
