@@ -9,39 +9,46 @@ This repository contains code to perform semantic segmentation of remote sensing
 - `deep-dunes-data/` — Directory for input and output data. This folder is available at this link: https://drive.google.com/drive/folders/1krYQ6T-wg3J54ZcwJ8tcnwlp4-mPcgFa?usp=share_link 
 
 ## Usage
-### Pre-requisites
-Orfeo ToolBox Tensor Flow (OTBTF) is available on Docker. 
-Steps for using OTBTF from Docker:
-1) pull the latest CPU docker image:
-```bash
-docker pull mdl4eo/otbtf:latest
-```
+
+### Option 1: Use Devcontainer (Recommended)
+The easiest way to get started is using VS Code with the provided devcontainer configuration:
+1. Install [Docker](https://docs.docker.com/get-docker/), [VS Code](https://code.visualstudio.com/), and the [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
+2. Open this project in VS Code
+3. Press `Ctrl+Shift+P` and select "Dev Containers: Reopen in Container"
+4. Wait for the container to build and install dependencies automatically
+
+### Option 2: Manual Setup
+If you prefer not to use a devcontainer, you can set up the environment manually. 
+1. pull the Orfeo ToolBox Tensor Flow (OTBTF) docker image:
+    ```bash
+    docker pull mdl4eo/otbtf:latest
+    ```
 
 2) start a container from the OTBTF image, create a persistent volume for python libraries and install the required libraries:
-```bash
-docker volume create python_packages
-docker run -it --platform=linux/amd64 -v ~/Desktop/deep-dunes:/data -v python_packages:/Users/emilpaf/Library/Python/3.9/lib/python/site-packages mdl4eo/otbtf:latest /bin/bash
-cd /data/
-pip install -r scripts/requirements.txt
-pip list
-```
-Libraries needed:
-- Python 3.8+
-- tensorflow
-- keras
-- otbtf
-- rasterio
-- geopandas
-- scikit-learn
-- numpy
+    ```bash
+    docker volume create python_packages
+    docker run -it --platform=linux/amd64 -v ~/Desktop/deep-dunes:/data -v python_packages:/Users/emilpaf/Library/Python/3.9/lib/python/site-packages mdl4eo/otbtf:latest /bin/bash
+    cd /data/
+    pip install -r scripts/requirements.txt
+    pip list
+    ```
+    Libraries needed:
+    - Python 3.8+
+    - tensorflow
+    - keras
+    - otbtf
+    - rasterio
+    - geopandas
+    - scikit-learn
+    - numpy
 
 3) start the container you have created using its name (es. priceless_goodall):
-```bash
-docker ps -a
-docker start priceless_goodall
-docker exec -it priceless_goodall /bin/bash
-cd /data/
-```
+    ```bash
+    docker ps -a
+    docker start priceless_goodall
+    docker exec -it priceless_goodall /bin/bash
+    cd /data/
+    ```
   
 ### Steps to produce habitat maps:
 1) sampling: to extract patches corresponding to the ground truth squares (2 m x 2 m) from each remote sensing dataset;
