@@ -8,10 +8,11 @@ from sklearn.model_selection import train_test_split
 from pathlib import Path
 import argparse
 
-from setup import setup
+from setup import setup, DATASET_IDS
 
 parser = argparse.ArgumentParser(description="Sampling EUNIS ground truth data")
-parser.add_argument("--data_folder", required=True, help="Folder containing data")
+parser.add_argument("--data_folder", required=True, choices=list(DATASET_IDS.keys()), 
+                    help=f"Folder containing data. Must be one of: {list(DATASET_IDS.keys())}")
 parser.add_argument("--patch_size", type=int, default=100, help="Size of patches to extract")
 parser.add_argument("--epsg_code", type=int, default=32632, help="EPSG code for output raster")
 args = parser.parse_args()
