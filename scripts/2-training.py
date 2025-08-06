@@ -206,7 +206,7 @@ def train(params, ds_train, ds_valid, ds_test):
 
 
 setup(directory_name=params.data_folder)
-patch_folder = f"deep-dunes-data/{params.data_folder}"
+patch_folder = f"deep-dunes-data/{params.data_folder}/"
 ds_train = create_dataset(
     [(patch_folder + f"train_{params.img_type}_patches.tif")],
     [(patch_folder + "train_labels.tif")]
