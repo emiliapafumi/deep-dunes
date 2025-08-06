@@ -20,7 +20,7 @@ from tensorboard.util import tensor_util
 parser = argparse.ArgumentParser(description="Assess accuracy")
 parser.add_argument("--data_folder", required=True, help="Folder containing data")
 parser.add_argument("--model_name", required=True, help="model name")
-parser.add_argument("--img_type", choices=["rgb", "multi"], default="rgb", help="Type of input image")
+parser.add_argument("--img_type",  default="rgb", help="Type of input image")
 params = parser.parse_args()
 
 data_folder = params.data_folder
