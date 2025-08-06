@@ -8,9 +8,11 @@ from keras.initializers import HeNormal
 from pathlib import Path
 from tensorflow import keras
 
+from setup import setup, DATASET_IDS
 
 parser = argparse.ArgumentParser(description="Train a CNN model")
-parser.add_argument("--data_folder", required=True, help="Folder containing data")
+parser.add_argument("--data_folder", required=True, choices=list(DATASET_IDS.keys()), 
+                    help=f"Folder containing data. Must be one of: {list(DATASET_IDS.keys())}")
 parser.add_argument("--model_name", required=True, help="model name")
 parser.add_argument("--img_type", choices=["rgb", "multi"], default="rgb", help="Type of input image")
 parser.add_argument("--class_nb", type=int, default=5, help="Number of classes")
@@ -203,8 +205,8 @@ def train(params, ds_train, ds_valid, ds_test):
             print(f"{metric_name}: {100*value:.2f}")
 
 
-
-patch_folder = params.data_folder 
+setup(directory_name=params.data_folder)
+patch_folder = f"deep-dunes-data/{params.data_folder}/"
 ds_train = create_dataset(
     [(patch_folder + f"train_{params.img_type}_patches.tif")],
     [(patch_folder + "train_labels.tif")]
