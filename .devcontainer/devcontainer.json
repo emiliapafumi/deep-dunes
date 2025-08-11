@@ -1,0 +1,43 @@
+{
+	"name": "Deep Dunes OTBTF Development",
+	"image": "mdl4eo/otbtf:latest",
+	"workspaceFolder": "/workspaces/deep-dunes",
+	"workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/deep-dunes,type=bind,consistency=cached",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-python.python",
+				"ms-python.vscode-pylance",
+				"ms-vscode.remote-explorer"
+			],
+			"settings": {
+				"python.defaultInterpreterPath": "/usr/bin/python3",
+				"python.linting.enabled": true,
+				"python.terminal.activateEnvironment": false,
+				"files.watcherExclude": {
+					"**/models/logs/**": true,
+					"**/models/output/**": true,
+					"**/deep-dunes-data/**": true
+				}
+			}
+		}
+	},
+	"postCreateCommand": "bash .devcontainer/post-create.sh",
+	"remoteUser": "root",
+	"features": {
+		"ghcr.io/devcontainers/features/git:1": { },
+		"ghcr.io/devcontainers/features/common-utils:2": {
+			// "installZsh": true,
+			// "configureZshAsDefaultShell": true,
+			// "installOhMyZsh": true,
+			"upgradePackages": true
+		}
+	},
+	"mounts": [
+		"source=deep-dunes-python-packages,target=/usr/local/lib/python3.9/site-packages,type=volume"
+	],
+	"containerEnv": {
+		"PYTHONPATH": "/workspaces/deep-dunes/scripts:${PYTHONPATH}",
+		"TF_CPP_MIN_LOG_LEVEL": "1"
+	}
+}

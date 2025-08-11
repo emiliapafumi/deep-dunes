@@ -23,7 +23,7 @@ parser = argparse.ArgumentParser(description="Assess accuracy")
 parser.add_argument("--data_folder", required=True, choices=list(DATASET_IDS.keys()), 
                     help=f"Folder containing data. Must be one of: {list(DATASET_IDS.keys())}")
 parser.add_argument("--model_name", required=True, help="model name")
-parser.add_argument("--img_type", choices=["rgb", "multi"], default="rgb", help="Type of input image")
+parser.add_argument("--img_type",  default="rgb", help="Type of input image")
 params = parser.parse_args()
 
 setup(directory_name=params.data_folder)
