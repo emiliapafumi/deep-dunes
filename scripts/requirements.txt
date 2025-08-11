@@ -7,3 +7,4 @@ tensorflow>=2.8
 tensorboard==2.18
 keras>=2.8
 otbtf
+gdown

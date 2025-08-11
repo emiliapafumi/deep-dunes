@@ -3,14 +3,20 @@
 import pyotb
 import argparse
 
+from setup import setup, DATASET_IDS
+
 parser = argparse.ArgumentParser(description="Apply the CNN model")
-parser.add_argument("--data_folder", required=True, help="Folder containing data")
+parser.add_argument("--data_folder", required=True, choices=list(DATASET_IDS.keys()), 
+                    help=f"Folder containing data. Must be one of: {list(DATASET_IDS.keys())}")
 parser.add_argument("--model_name", required=True, help="model name")
 parser.add_argument("--img_type", choices=["rgb", "multi"], default="rgb", help="Type of input image")
 parser.add_argument("--ext_fname", required=False, help="subset of the output image")
 params = parser.parse_args()
 
 # define directories
+setup(directory_name=params.data_folder)
+data_folder = f"deep-dunes-data/{params.data_folder}"
+
 model_dir = "deep-dunes/models/output/savedmodel_" + params.model_name
 input_file = params.data_folder + params.img_type + ".tif"
 output_file = params.data_folder + "map_" + params.img_type + ".tif"
