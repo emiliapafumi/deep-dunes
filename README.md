@@ -1,6 +1,7 @@
 # deep-dunes
 
 This repository contains code to perform semantic segmentation of remote sensing imagery for habitat mapping on coastal dunes.
+<br><br>
 
 ## Structure of the project
 
@@ -135,5 +136,6 @@ Output: table containing accuracy values, both for the overall classification an
   
 ## Notes
 The processing is based on the OTBTF/keras tutorial: https://otb-keras-tutorial.readthedocs.io/en/latest/ 
+
 
 
