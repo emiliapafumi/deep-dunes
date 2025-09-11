@@ -35,11 +35,11 @@ Libraries needed:
 - scikit-learn
 - numpy
 
-3) start the container you have created using its name (es. priceless_goodall):
+3) start the container you have created using its name (es. name_container):
 ```bash
 docker ps -a
-docker start priceless_goodall
-docker exec -it priceless_goodall /bin/bash
+docker start name_container
+docker exec -it name_container /bin/bash
 cd /data/
 ```
   
@@ -49,13 +49,14 @@ cd /data/
 3) inference: to produce the final habitat map using a trained CNN model;
 4) validation: to compute accuracy metrics.
   
-Example of use on RGB imagery from UAV dataset (model CNN-01):
+### Example of use on RGB imagery from airborne dataset (model CNN-03):
 ```bash
-python deep-dunes/scripts/1-sampling.py --data_folder dune-uav/ --patch_size 100
-script models/terminal_logs/log_cnn_01.txt
-python deep-dunes/scripts/2-training.py --data_folder dune-uav/ --model_name cnn-01 --img_type rgb --class_nb 4
-python deep-dunes/scripts/3-inference.py --data_folder dune-uav/ --model_name cnn-01 --img_type rgb --ext_fname box=3000:3000:5000:5000
-python deep-dunes/scripts/4-validation.py --data_folder dune-uav/ --model_name cnn-01 --img_type rgb
+cd deep-dunes/
+python scripts/1-sampling.py --data_folder dune-air/ --patch_size 10
+script models/terminal_logs/log_cnn_03.txt
+python scripts/2-training.py --data_folder dune-air/ --model_name cnn-03 --img_type rgb --class_nb 5
+python scripts/3-inference.py --data_folder dune-air/ --model_name cnn-03 --img_type rgb
+python scripts/4-validation.py --data_folder dune-air/ --model_name cnn-03 --img_type rgb
 ```
 note: script is used to save a log.  
   
@@ -71,3 +72,4 @@ Models created with these scripts:
 
 ## Notes
 The processing is based on the OTBTF/keras tutorial: https://otb-keras-tutorial.readthedocs.io/en/latest/ 
+
