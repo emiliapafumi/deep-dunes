@@ -7,8 +7,8 @@ This repository contains code to perform semantic segmentation of remote sensing
 
 - `scripts/` — Directory for python scripts to use for sampling remote sensing data, training a CNN model, performing inference and validation.
 - `models/` — Directory for saved models, logs and checkpoints.
-- `deep-dunes-data/` — Directory for input and output data. This folder is available at this link: https://drive.google.com/drive/folders/1krYQ6T-wg3J54ZcwJ8tcnwlp4-mPcgFa?usp=share_link 
-<br><br>
+- `deep-dunes-data/` — Directory for input and output data.
+  
 ## Usage
 ### Pre-requisites
 Orfeo ToolBox Tensor Flow (OTBTF) is available on Docker. 
@@ -136,6 +136,7 @@ Output: table containing accuracy values, both for the overall classification an
   
 ## Notes
 The processing is based on the OTBTF/keras tutorial: https://otb-keras-tutorial.readthedocs.io/en/latest/ 
+
 
 
 
