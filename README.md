@@ -67,7 +67,7 @@ Before proceeding, download the deep-dunes-data/ folder and save it in deep-dune
 ### Step 1:  
 ```bash
 cd deep-dunes/
-python scripts/1-sampling.py --data_folder dune-air/ --patch_size 10
+python scripts/1-sampling.py --data_folder dune-air --patch_size 10
 ```
 Run the first script to extract patches from the input image using the ground truth points, divided in training, validation and testing datasets.  
 Close-up view on the input RGB image:  
@@ -84,7 +84,7 @@ Example of patches with labels (files _labels.tif):
 ### Step 2:  
 ```bash
 script models/terminal_logs/log_cnn_03.txt
-python scripts/2-training.py --data_folder dune-air/ --model_name cnn-03 --img_type rgb --class_nb 5
+python scripts/2-training.py --data_folder dune-air --model_name cnn-03 --img_type rgb --class_nb 5
 ```
 Run the second script to train a CNN model. Learning rates, number of epochs and batch size are set by default but can be adjusted if needed.  
 Note: script is used to save a log (inside models/terminal_logs/ folder).  
@@ -136,6 +136,7 @@ Output: table containing accuracy values, both for the overall classification an
   
 ## Notes
 The processing is based on the OTBTF/keras tutorial: https://otb-keras-tutorial.readthedocs.io/en/latest/ 
+
 
 
 
