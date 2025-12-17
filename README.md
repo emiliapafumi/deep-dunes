@@ -8,6 +8,7 @@ This repository contains code to perform semantic segmentation of remote sensing
 - `scripts/` — Directory for python scripts to use for sampling remote sensing data, training a CNN model, performing inference and validation.
 - `models/` — Directory for saved models, logs and checkpoints.
 - `deep-dunes-data/` — Directory for input and output data.
+- `deep-dunes-graphs.md` — Code for graphs in R.
   
 ## Usage
 ### Pre-requisites
@@ -136,6 +137,7 @@ Output: table containing accuracy values, both for the overall classification an
   
 ## Notes
 The processing is based on the OTBTF/keras tutorial: https://otb-keras-tutorial.readthedocs.io/en/latest/ 
+
 
 
 
