@@ -89,7 +89,7 @@ Note: for the other CNNs, different datasets are used:
 ```bash
 python scripts/1-sampling.py --data_folder dune-air --patch_size 10
 ```
-Run the first script to extract patches from the input image using the ground truth points, divided in training, validation and testing datasets. Patch size should be adjusted according to the spatial resolution of each remote sensing dataset, to represent the 2 m x 2 m ground truth plots.
+Run the first script to extract patches from the input image using the ground truth points, divided in training, validation and testing datasets. Ground truth points (`ground_truth.shp`) represent the centroids of the ground truth patches. Patch size should be adjusted according to the spatial resolution of each remote sensing dataset, to represent the 2 m x 2 m ground truth plots.
 <br><br>
 Close-up view on the input RGB image:  
 <br>
