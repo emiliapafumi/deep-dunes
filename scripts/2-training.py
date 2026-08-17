@@ -8,17 +8,18 @@ from keras.initializers import HeNormal
 from pathlib import Path
 from tensorflow import keras
 
-from setup import setup, DATASET_IDS
 
 parser = argparse.ArgumentParser(description="Train a CNN model")
-parser.add_argument("--data_folder", required=True, choices=list(DATASET_IDS.keys()), 
-                    help=f"Folder containing data. Must be one of: {list(DATASET_IDS.keys())}")
+parser.add_argument("--data_folder", required=True, help=f"Folder containing data")
 parser.add_argument("--model_name", required=True, help="model name")
 parser.add_argument("--img_type", choices=["rgb", "multi"], default="rgb", help="Type of input image")
 parser.add_argument("--class_nb", type=int, default=5, help="Number of classes")
 parser.add_argument("--learning_rate", type=float, default=0.0002)
 parser.add_argument("--epochs", type=int, default=50)
 parser.add_argument("--batch_size", type=int, default=8, help="Batch size for training")
+parser.add_argument("--early_stopping", action="store_true", help="Enable early stopping based on validation loss")
+parser.add_argument("--patience", type=int, default=8, help="Number of epochs with no improvement before stopping")
+parser.add_argument("--min_delta", type=float, default=0.0, help="Minimum change in validation loss to qualify as improvement")
 parser.add_argument("--upsampling", action="store_true", help="Use U-Net architecture with MaxPooling and upsampling (default: False = simple FCNN)")
 params = parser.parse_args()
 tf.get_logger().setLevel('ERROR')
@@ -186,6 +187,16 @@ def train(params, ds_train, ds_valid, ds_test):
             monitor="val_loss"
         )
         callbacks = [save_best_cb]
+        if params.early_stopping:
+            callbacks.append(
+                tf.keras.callbacks.EarlyStopping(
+                    monitor="val_loss",
+                    mode="min",
+                    patience=params.patience,
+                    min_delta=params.min_delta,
+                    restore_best_weights=True
+                )
+            )
         if log_dir:
             callbacks.append(tf.keras.callbacks.TensorBoard(log_dir=log_dir))
         if ckpt_dir:
@@ -205,7 +216,6 @@ def train(params, ds_train, ds_valid, ds_test):
             print(f"{metric_name}: {100*value:.2f}")
 
 
-setup(directory_name=params.data_folder)
 patch_folder = f"deep-dunes-data/{params.data_folder}/"
 ds_train = create_dataset(
     [(patch_folder + f"train_{params.img_type}_patches.tif")],
