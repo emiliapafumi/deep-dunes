@@ -19,8 +19,7 @@ from tensorboard.util import tensor_util
 
 # Parameters parser
 parser = argparse.ArgumentParser(description="Assess accuracy")
-parser.add_argument("--data_folder", required=True, 
-                    help=f"Folder containing data")
+parser.add_argument("--data_folder", required=True, help="Folder containing data. Must be one of: dune-uav, dune-air, dune-ge, dune-wv")
 parser.add_argument("--model_name", required=True, help="model name")
 parser.add_argument("--img_type", choices=["rgb", "multi"], default="rgb", help="Type of input image")
 params = parser.parse_args()
@@ -73,7 +72,7 @@ def get_predicted_mode(predicted_mask, gdf_points, src, plot_side_pixels):
         # Calculate frequency of each class in the window
         vals, counts = np.unique(window, return_counts=True)
         freq_table = dict(zip(vals, counts))
-        print(f"Predicted values in window {side}x{side} around point {i} (real value: {gdf_points.iloc[i]['class']}): {freq_table}")
+        print(f"Predicted values in window around point {i} (real value: {gdf_points.iloc[i]['class']}): {freq_table}")
 
         # Calculate the mode of the window, ignoring NaN values
         moda = mode(window, axis=None, keepdims=False, nan_policy='omit').mode
@@ -121,7 +120,7 @@ def compute_pixelwise_iou(predicted_mask, gdf_points, src, plot_side_pixels):
             pred_mask_cls = pred_pixels == cls
             ref_mask_cls = (cls == ref_class)
             tp[cls_idx] += np.sum(pred_mask_cls & ref_mask_cls)
-            fp[cls_idx] += np.sum(pred_mask_cls & (not ref_mask_cls))
+            fp[cls_idx] += np.sum(pred_mask_cls & (~ref_mask_cls))
             fn[cls_idx] += np.sum((~pred_mask_cls) & ref_mask_cls)
 
     iou = np.divide(
@@ -157,10 +156,10 @@ with rasterio.open(geotiff_path) as src:
 actual_values = gdf["class"].to_numpy()
 
 # Calculate Accuracy
-labels = np.unique(np.concatenate([actual_values, predicted_values]))
-cm = confusion_matrix(actual_values, predicted_values)
-oa = accuracy_score(actual_values, predicted_values)
-kappa = cohen_kappa_score(actual_values, predicted_values)
+labels = np.unique(np.concatenate([actual_values, predicted_values_mode]))
+cm = confusion_matrix(actual_values, predicted_values_mode)
+oa = accuracy_score(actual_values, predicted_values_mode)
+kappa = cohen_kappa_score(actual_values, predicted_values_mode)
 
 # accuracy per class
 precision = np.divide(cm.diagonal(), cm.sum(axis=0), out=np.zeros_like(cm.diagonal(), dtype=float), where=cm.sum(axis=0)!=0)
@@ -214,7 +213,7 @@ df_metrics["CNN"] = model_name
 df_metrics["Image Type"] = img_type
 
 # Export to a CSV file (one file for all cnns)
-metrics_file = "deep-dunes/models/accuracy_metrics.csv"
+metrics_file = "models/accuracy_metrics.csv"
 write_header = not os.path.exists(metrics_file)
 df_metrics.to_csv(metrics_file, mode='a', header=write_header, index=False)
 print(f"\nMetrics saved to {metrics_file}\n")
@@ -223,7 +222,7 @@ print(f"\nMetrics saved to {metrics_file}\n")
 
 # Download data from TensorBoard
 
-log_dir = f"deep-dunes/models/logs/savedmodel_{model_name}/validation/"
+log_dir = f"models/logs/savedmodel_{model_name}/validation/"
 ea = event_accumulator.EventAccumulator(log_dir)
 ea.Reload()
 
@@ -238,7 +237,7 @@ for e in events:
 df_loss = pd.DataFrame(losses, columns=['CNN', 'step', 'loss'])
 
 # Export to a CSV file
-loss_file = f'deep-dunes/models/loss.csv'
+loss_file = f'models/loss.csv'
 write_header = not os.path.exists(loss_file)
 df_loss.to_csv(loss_file, mode='a', header=write_header, index=False)
 print(f"\nLosses saved to {loss_file}\n")

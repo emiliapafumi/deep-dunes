@@ -2,20 +2,22 @@
 
 import pyotb
 import argparse
+import os
 
 parser = argparse.ArgumentParser(description="Apply the CNN model")
-parser.add_argument("--data_folder", required=True, help=f"Folder containing data")
+parser.add_argument("--data_folder", required=True, help="Folder containing data. Must be one of: dune-uav, dune-air, dune-ge, dune-wv")
 parser.add_argument("--model_name", required=True, help="model name")
 parser.add_argument("--img_type", choices=["rgb", "multi"], default="rgb", help="Type of input image")
 parser.add_argument("--ext_fname", required=False, help="subset of the output image")
 params = parser.parse_args()
 
 # define directories
-data_folder = f"deep-dunes-data/{params.data_folder}"
+model_dir = f"models/output/savedmodel_{params.model_name}"
+input_file  = f"deep-dunes-data/{params.data_folder}/{params.img_type}.tif"
+output_file = f"deep-dunes-data/{params.data_folder}/map_{params.img_type}.tif"
 
-model_dir = "models/output/savedmodel_" + params.model_name
-input_file = data_folder + params.img_type + ".tif"
-output_file = data_folder + "map_" + params.img_type + ".tif"
+if not os.path.exists(input_file):
+    raise FileNotFoundError(f"Input image not found: {input_file}")
 
 infer = pyotb.TensorflowModelServe(
   n_sources=1,

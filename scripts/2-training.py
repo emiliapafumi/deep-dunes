@@ -10,7 +10,7 @@ from tensorflow import keras
 
 
 parser = argparse.ArgumentParser(description="Train a CNN model")
-parser.add_argument("--data_folder", required=True, help=f"Folder containing data")
+parser.add_argument("--data_folder", required=True, help="Folder containing data. Must be one of: dune-uav, dune-air, dune-ge, dune-wv")
 parser.add_argument("--model_name", required=True, help="model name")
 parser.add_argument("--img_type", choices=["rgb", "multi"], default="rgb", help="Type of input image")
 parser.add_argument("--class_nb", type=int, default=5, help="Number of classes")
@@ -20,7 +20,7 @@ parser.add_argument("--batch_size", type=int, default=8, help="Batch size for tr
 parser.add_argument("--early_stopping", action="store_true", help="Enable early stopping based on validation loss")
 parser.add_argument("--patience", type=int, default=8, help="Number of epochs with no improvement before stopping")
 parser.add_argument("--min_delta", type=float, default=0.0, help="Minimum change in validation loss to qualify as improvement")
-parser.add_argument("--upsampling", action="store_true", help="Use U-Net architecture with MaxPooling and upsampling (default: False = simple FCNN)")
+parser.add_argument("--upsampling", action="store_true", default=False, help="Use U-Net architecture with MaxPooling and upsampling (default: False = simple FCNN)")
 params = parser.parse_args()
 tf.get_logger().setLevel('ERROR')
 

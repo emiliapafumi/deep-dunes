@@ -9,7 +9,7 @@ from pathlib import Path
 import argparse
 
 parser = argparse.ArgumentParser(description="Sampling EUNIS ground truth data")
-parser.add_argument("--data_folder", required=True, help="Folder containing data")
+parser.add_argument("--data_folder", required=True, help="Folder containing data. Must be one of: dune-uav, dune-air, dune-ge, dune-wv")
 parser.add_argument("--patch_size", type=int, help="Size of patches to extract")
 parser.add_argument("--epsg_code", type=int, default=32632, help="EPSG code for output raster")
 args = parser.parse_args()
