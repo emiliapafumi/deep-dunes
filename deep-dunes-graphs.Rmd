@@ -17,7 +17,7 @@ library(viridis)
 
 ### Overall accuracy
 
-```{r, fig.width=12, fig.height=5}
+```{r, fig.width=12, fig.height=5, out.width="100%"}
 # load data
 df <- read.csv("models/accuracy_metrics.csv", stringsAsFactors=TRUE)
 df$source <- as.factor(df$CNN)
@@ -63,7 +63,7 @@ ggarrange(p_oa, p_iou, nrow=1,  common.legend=T, legend="right")
 
 ### Class-specific accuracy
 
-```{r, fig.width=10, fig.height=8}
+```{r, fig.width=10, fig.height=8, out.width="100%"}
 
 # Class-specific accuracy
 df_p <- droplevels(df[df$Metric=="Precision", ])

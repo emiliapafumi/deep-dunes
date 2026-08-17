@@ -77,7 +77,7 @@ p_iou<-ggplot(df_iou) +
 ggarrange(p_oa, p_iou, nrow=1,  common.legend=T, legend="right")
 ```
 
-![](deep-dunes-graphs_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
+<img src="deep-dunes-graphs_files/figure-gfm/unnamed-chunk-2-1.png" width="100%" />
 
 ``` r
 #ggsave("Fig4.png", bg="transparent", width=24, height=10, units="cm", dpi=600)
@@ -110,7 +110,7 @@ p4 <- ggplot(df_i, aes(x=CNN, y=Value, fill=Class))+
 ggarrange(p1, p2, p3, p4, nrow=4,  common.legend=T, legend="bottom")
 ```
 
-![](deep-dunes-graphs_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+<img src="deep-dunes-graphs_files/figure-gfm/unnamed-chunk-3-1.png" width="100%" />
 
 ``` r
 #ggsave("FigS5.png", bg="transparent", width=20, height=18, units="cm", dpi=600)
