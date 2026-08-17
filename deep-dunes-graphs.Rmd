@@ -35,7 +35,7 @@ theme_plot <- theme_bw() +
 df_oa <- df[df$Metric=="Overall Accuracy", ]
 df_oa[, c("CNN","Value")]
 levels(df_oa$source) <- c("UAV", "airborne", "Google Earth", "WorldView-3")
-ggplot(df_oa) +
+p_oa<-ggplot(df_oa) +
   geom_bar(stat="identity", aes(x=source, y=Value, col=bands, fill=bands), alpha=.6,width=.8,
            position=position_dodge2(preserve = "single", padding=.1)) +
   labs(x="", y="Overall accuracy") + ylim(0, 1) +
@@ -43,9 +43,23 @@ ggplot(df_oa) +
   scale_fill_discrete(type=c("#21908CFF", "#8FD744FF"), labels=c("RGB","multispectral"), name="Input bands")+
   theme_plot
 
-# ggsave("Fig4.png", bg="transparent", width=20, height=15, units="cm", dpi=600)
+# Mean IoU
+df_iou <- df[df$Metric=="Mean IoU", ]
+df_iou[, c("CNN","Value")]
+levels(df_iou$source) <- c("UAV", "airborne", "Google Earth", "WorldView-3")
+p_iou<-ggplot(df_iou) +
+  geom_bar(stat="identity", aes(x=source, y=Value, col=bands, fill=bands), alpha=.6,width=.8,
+           position=position_dodge2(preserve = "single", padding=.1)) +
+  labs(x="", y="Mean IoU") + ylim(0, 1) +
+  scale_color_manual(values=c("#21908CFF", "#8FD744FF"), labels=c("RGB","multispectral"), name="Input bands")+
+  scale_fill_discrete(type=c("#21908CFF", "#8FD744FF"), labels=c("RGB","multispectral"), name="Input bands")+
+  theme_plot
+
+ggarrange(p_oa, p_iou, nrow=1,  common.legend=T, legend="right")
+#ggsave("Fig4.png", bg="transparent", width=24, height=10, units="cm", dpi=600)
 
 ```
+
 
 ### Class-specific accuracy
 
@@ -67,9 +81,14 @@ p3 <- ggplot(df_f, aes(x=CNN, y=Value, fill=Class))+
   geom_bar(stat="identity",position=position_dodge2(preserve = "single", padding=.1), color="black")+
   scale_fill_discrete(type = color_classes, labels=label_classes) + theme_plot + labs(x="", y="F1-Score")
 
-ggarrange(p1, p2, p3, nrow=3,  common.legend=T, legend="bottom")
+df_i <- droplevels(df[df$Metric=="Class IoU", ])
+p4 <- ggplot(df_i, aes(x=CNN, y=Value, fill=Class))+
+  geom_bar(stat="identity",position=position_dodge2(preserve = "single", padding=.1), color="black")+
+  scale_fill_discrete(type = color_classes, labels=label_classes) + theme_plot + labs(x="", y="IoU")
 
-# ggsave("FigS6.png", bg="transparent", width=20, height=15, units="cm", dpi=600)
+ggarrange(p1, p2, p3, p4, nrow=4,  common.legend=T, legend="bottom")
+
+#ggsave("FigS5.png", bg="transparent", width=20, height=18, units="cm", dpi=600)
 
 ```
 
@@ -92,6 +111,6 @@ ggplot(df_loss, aes(x=step, y=loss, col=bands)) +
   theme_plot + labs(x="Step", y="Loss") +
   facet_wrap(~source, scales="free")
 
-# ggsave("FigS3.png", bg="transparent", width=18, height=10, units="cm", dpi=600)
+# ggsave("FigS2.png", bg="transparent", width=18, height=10, units="cm", dpi=600)
 
 ```
