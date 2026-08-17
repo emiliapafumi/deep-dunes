@@ -31,30 +31,56 @@ df_oa <- df[df$Metric=="Overall Accuracy", ]
 df_oa[, c("CNN","Value")]
 ```
 
-    ##        CNN     Value
-    ## 1   cnn-01 0.8750000
-    ## 26  cnn-02 0.9375000
-    ## 51  cnn-03 0.8600000
-    ## 81  cnn-04 0.9300000
-    ## 111 cnn-05 0.8000000
-    ## 141 cnn-06 0.3777778
-    ## 171 cnn-07 0.7333333
+    ##        CNN Value
+    ## 1   cnn-01  0.88
+    ## 31  cnn-02  0.94
+    ## 61  cnn-03  0.86
+    ## 97  cnn-04  0.93
+    ## 133 cnn-05  0.80
+    ## 169 cnn-06  0.38
+    ## 205 cnn-07  0.73
 
 ``` r
 levels(df_oa$source) <- c("UAV", "airborne", "Google Earth", "WorldView-3")
-ggplot(df_oa) +
+p_oa<-ggplot(df_oa) +
   geom_bar(stat="identity", aes(x=source, y=Value, col=bands, fill=bands), alpha=.6,width=.8,
            position=position_dodge2(preserve = "single", padding=.1)) +
   labs(x="", y="Overall accuracy") + ylim(0, 1) +
   scale_color_manual(values=c("#21908CFF", "#8FD744FF"), labels=c("RGB","multispectral"), name="Input bands")+
   scale_fill_discrete(type=c("#21908CFF", "#8FD744FF"), labels=c("RGB","multispectral"), name="Input bands")+
   theme_plot
+
+# Mean IoU
+df_iou <- df[df$Metric=="Mean IoU", ]
+df_iou[, c("CNN","Value")]
+```
+
+    ##        CNN Value
+    ## 6   cnn-01  0.79
+    ## 36  cnn-02  0.81
+    ## 66  cnn-03  0.71
+    ## 102 cnn-04  0.78
+    ## 138 cnn-05  0.64
+    ## 174 cnn-06  0.23
+    ## 210 cnn-07  0.57
+
+``` r
+levels(df_iou$source) <- c("UAV", "airborne", "Google Earth", "WorldView-3")
+p_iou<-ggplot(df_iou) +
+  geom_bar(stat="identity", aes(x=source, y=Value, col=bands, fill=bands), alpha=.6,width=.8,
+           position=position_dodge2(preserve = "single", padding=.1)) +
+  labs(x="", y="Mean IoU") + ylim(0, 1) +
+  scale_color_manual(values=c("#21908CFF", "#8FD744FF"), labels=c("RGB","multispectral"), name="Input bands")+
+  scale_fill_discrete(type=c("#21908CFF", "#8FD744FF"), labels=c("RGB","multispectral"), name="Input bands")+
+  theme_plot
+
+ggarrange(p_oa, p_iou, nrow=1,  common.legend=T, legend="right")
 ```
 
 ![](deep-dunes-graphs_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
 
 ``` r
-# ggsave("Fig4.png", bg="transparent", width=20, height=15, units="cm", dpi=600)
+#ggsave("Fig4.png", bg="transparent", width=24, height=10, units="cm", dpi=600)
 ```
 
 ### Class-specific accuracy
@@ -76,13 +102,18 @@ p3 <- ggplot(df_f, aes(x=CNN, y=Value, fill=Class))+
   geom_bar(stat="identity",position=position_dodge2(preserve = "single", padding=.1), color="black")+
   scale_fill_discrete(type = color_classes, labels=label_classes) + theme_plot + labs(x="", y="F1-Score")
 
-ggarrange(p1, p2, p3, nrow=3,  common.legend=T, legend="bottom")
+df_i <- droplevels(df[df$Metric=="Class IoU", ])
+p4 <- ggplot(df_i, aes(x=CNN, y=Value, fill=Class))+
+  geom_bar(stat="identity",position=position_dodge2(preserve = "single", padding=.1), color="black")+
+  scale_fill_discrete(type = color_classes, labels=label_classes) + theme_plot + labs(x="", y="IoU")
+
+ggarrange(p1, p2, p3, p4, nrow=4,  common.legend=T, legend="bottom")
 ```
 
 ![](deep-dunes-graphs_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
 ``` r
-# ggsave("FigS6.png", bg="transparent", width=20, height=15, units="cm", dpi=600)
+#ggsave("FigS5.png", bg="transparent", width=20, height=18, units="cm", dpi=600)
 ```
 
 ### Loss
@@ -107,5 +138,5 @@ ggplot(df_loss, aes(x=step, y=loss, col=bands)) +
 ![](deep-dunes-graphs_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
 ``` r
-# ggsave("FigS3.png", bg="transparent", width=18, height=10, units="cm", dpi=600)
+# ggsave("FigS2.png", bg="transparent", width=18, height=10, units="cm", dpi=600)
 ```
