@@ -13,9 +13,9 @@ params = parser.parse_args()
 # define directories
 data_folder = f"deep-dunes-data/{params.data_folder}"
 
-model_dir = "deep-dunes/models/output/savedmodel_" + params.model_name
-input_file = params.data_folder + params.img_type + ".tif"
-output_file = params.data_folder + "map_" + params.img_type + ".tif"
+model_dir = "models/output/savedmodel_" + params.model_name
+input_file = data_folder + params.img_type + ".tif"
+output_file = data_folder + "map_" + params.img_type + ".tif"
 
 infer = pyotb.TensorflowModelServe(
   n_sources=1,
