@@ -89,7 +89,8 @@ Note: for the other CNNs, different datasets are used:
 ```bash
 python scripts/1-sampling.py --data_folder dune-air --patch_size 10
 ```
-Run the first script to extract patches from the input image using the ground truth points, divided in training, validation and testing datasets. Ground truth points (`ground_truth.shp`) represent the centroids of the ground truth patches. Patch size should be adjusted according to the spatial resolution of each remote sensing dataset, to represent the 2 m x 2 m ground truth plots.
+Run the first script to extract patches from the input image using the ground truth points, divided in training, validation and testing datasets. Ground truth points (`ground_truth.shp`) represent the centroids of the ground truth patches. `--patch_size` should be adjusted according to the spatial resolution of each remote sensing dataset, to represent the 2 m x 2 m ground truth plots.
+
 <br><br>
 Close-up view on the input RGB image:  
 <br>
@@ -120,12 +121,13 @@ script models/terminal_logs/log_cnn_03.txt
 python scripts/2-training.py --data_folder dune-air --model_name cnn-03 --img_type rgb --class_nb 5
 ```
 Run the second script to train a CNN model. Learning rates, number of epochs and batch size are set by default but can be adjusted if needed. Training logs are saved in `models/terminal_logs/` folder.  
+Note: for CNN-01 and CNN-02 (UAV models) add `--upsampling` to use the architecture with MaxPooling.
   
 Output: the trained CNN model is saved in `models/output/savedmodel_cnn-03/`.  
 <br>
 ### Step 3:  
 ```bash
-python scripts/3-inference.py --data_folder dune-air/ --model_name cnn-03 --img_type rgb
+python scripts/3-inference.py --data_folder dune-air --model_name cnn-03 --img_type rgb
 ```
 Run the third script to apply the trained CNN model and produce the habitat map.  
 <br>
@@ -136,7 +138,7 @@ Close-up view on the map:
 <br>
 ### Step 4:  
 ```bash
-python scripts/4-assessment.py --data_folder dune-air/ --model_name cnn-03 --img_type rgb
+python scripts/4-assessment.py --data_folder dune-air --model_name cnn-03 --img_type rgb
 ```
 Run the fourth script to perform accuracy assessment (calculate overall accuracy, kappa, precision, recall, F-Score, Intersection over Union).  
     
@@ -165,6 +167,7 @@ Output: table containing accuracy values, both for the overall classification an
 | Precision           | 3       | 1.00  | cnn-03 | rgb        |
 | Recall              | 3       | 0.95  | cnn-03 | rgb        |
 | F-Score             | 3       | 0.97  | cnn-03 | rgb        |
+| Class IoU           | 3       | 0.86  | cnn-03 | rgb        |
 | Precision           | 4       | 1.00  | cnn-03 | rgb        |
 | Recall              | 4       | 1.00  | cnn-03 | rgb        |
 | F-Score             | 4       | 1.00  | cnn-03 | rgb        |
@@ -173,7 +176,6 @@ Output: table containing accuracy values, both for the overall classification an
   
 ## Notes
 The processing is based on the OTBTF/keras tutorial: https://otb-keras-tutorial.readthedocs.io/en/latest/ 
-
 
 
 
