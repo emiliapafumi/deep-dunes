@@ -1,4 +1,4 @@
-"""Validation for dune cnn models"""
+"""Performance assessment for dune cnn models"""
 
 import os
 import pandas as pd
@@ -16,17 +16,15 @@ from tensorboard.backend.event_processing import event_accumulator
 from tensorboard.compat.proto import tensor_pb2
 from tensorboard.util import tensor_util
 
-from setup import setup, DATASET_IDS
 
 # Parameters parser
 parser = argparse.ArgumentParser(description="Assess accuracy")
-parser.add_argument("--data_folder", required=True, choices=list(DATASET_IDS.keys()), 
-                    help=f"Folder containing data. Must be one of: {list(DATASET_IDS.keys())}")
+parser.add_argument("--data_folder", required=True, 
+                    help=f"Folder containing data")
 parser.add_argument("--model_name", required=True, help="model name")
 parser.add_argument("--img_type", choices=["rgb", "multi"], default="rgb", help="Type of input image")
 params = parser.parse_args()
 
-setup(directory_name=params.data_folder)
 data_folder = f"deep-dunes-data/{params.data_folder}"
 
 model_name = params.model_name
@@ -34,7 +32,7 @@ img_type = params.img_type
 
 print(f"Accuracy for CNN: {model_name}")
 
-shapefile_path = f"{data_folder}/vec_valid.geojson"
+shapefile_path = f"{data_folder}/vec_test.geojson"
 geotiff_path = f"{data_folder}/map_{img_type}.tif"
 
 
@@ -57,7 +55,7 @@ plot_size = 4 # plot in square meters
 plot_side_m = int(sqrt(plot_size))  # plot size in meters
 plot_side_pixels = int(plot_side_m / resolution)  # plot size in pixels
 
-
+# Function to get predicted value for each ground truth patch
 def get_predicted_mode(predicted_mask, gdf_points, src, plot_side_pixels):
     side = int(plot_side_pixels / 2)  # window side: Half the side length in pixels
 
@@ -82,6 +80,60 @@ def get_predicted_mode(predicted_mask, gdf_points, src, plot_side_pixels):
         predicted_values.append(int(moda))
     return np.array(predicted_values, dtype=np.uint8)
 
+# Function to compute IoU for each class 
+def compute_pixelwise_iou(predicted_mask, gdf_points, src, plot_side_pixels):
+
+    side = int(plot_side_pixels / 2)
+    labels = np.array(sorted(gdf_points["class"].unique()))
+    class_to_idx = {c: i for i, c in enumerate(labels)}
+    n_classes = len(labels)
+
+    tp = np.zeros(n_classes, dtype=np.uint64)
+    fp = np.zeros(n_classes, dtype=np.uint64)
+    fn = np.zeros(n_classes, dtype=np.uint64)
+
+    for i, geom in enumerate(gdf_points.geometry):
+
+        ref_class = gdf_points.iloc[i]["class"]
+
+        x, y = geom.x, geom.y
+        row, col = src.index(x, y)
+
+        x_min = int(max(row - side, 0))
+        x_max = int(min(row + side + 1, predicted_mask.shape[0]))
+        y_min = int(max(col - side, 0))
+        y_max = int(min(col + side + 1, predicted_mask.shape[1]))
+
+        window = predicted_mask[x_min:x_max, y_min:y_max]
+
+        # flatten
+        pred_pixels = window.flatten()
+
+        # remove nodata if needed
+        if src.nodata is not None:
+            pred_pixels = pred_pixels[pred_pixels != src.nodata]
+
+        if len(pred_pixels) == 0:
+            continue
+
+        for cls in labels:
+            cls_idx = class_to_idx[cls]
+            pred_mask_cls = pred_pixels == cls
+            ref_mask_cls = (cls == ref_class)
+            tp[cls_idx] += np.sum(pred_mask_cls & ref_mask_cls)
+            fp[cls_idx] += np.sum(pred_mask_cls & (not ref_mask_cls))
+            fn[cls_idx] += np.sum((~pred_mask_cls) & ref_mask_cls)
+
+    iou = np.divide(
+        tp,
+        tp + fp + fn,
+        out=np.zeros_like(tp, dtype=float),
+        where=(tp + fp + fn) != 0
+    )
+    miou = np.nanmean(iou)
+
+    return labels, iou, miou
+
 with rasterio.open(geotiff_path) as src:
     predicted_mask = src.read(1).astype(np.uint8)
     
@@ -93,6 +145,13 @@ with rasterio.open(geotiff_path) as src:
     # extract predicted values as mode in the plot size
     predicted_values_mode = get_predicted_mode(predicted_mask, gdf, src, plot_side_pixels)
 
+    # compute IoU
+    iou_labels, pixel_iou, pixel_miou = compute_pixelwise_iou(
+        predicted_mask,
+        gdf,
+        src,
+        plot_side_pixels
+    ) 
 
 # Extract true classes (from 'class' field)
 actual_values = gdf["class"].to_numpy()
@@ -125,7 +184,9 @@ print(f"Average Recall: {recall_average:.3f}")
 print(f"Average F-Score: {FScore_average:.3f}")
 for i, label in enumerate(labels):
     print(f"Class {label} — Producer's: {producer_accuracy[i]:.2f}, User's: {user_accuracy[i]:.2f}, Precision: {precision[i]:.2f}, Recall: {recall[i]:.2f}, F-Score: {FScore[i]:.2f}")
-
+print(f"\nPixel-wise Mean IoU: {pixel_miou:.3f}")
+for i, cls in enumerate(iou_labels):
+    print(f"Class {cls} — Pixel IoU: {pixel_iou[i]:.3f}")
 
 # Export metrics to csv file
 metrics_list = []
@@ -136,14 +197,17 @@ metrics_list.append({"Metric": "Cohen's Kappa", "Class": "overall", "Value": kap
 metrics_list.append({"Metric": "Average Precision", "Class": "overall", "Value": precision_average})
 metrics_list.append({"Metric": "Average Recall", "Class": "overall", "Value": recall_average})
 metrics_list.append({"Metric": "Average F-Score", "Class": "overall", "Value": FScore_average})
+metrics_list.append({"Metric": "Mean IoU", "Class": "overall", "Value": pixel_miou})
 
 # Class-specific metrics
+iou_dict = dict(zip(iou_labels, pixel_iou))
 for i, label in enumerate(labels):
     metrics_list.append({"Metric": "Precision", "Class": label, "Value": precision[i]})
     metrics_list.append({"Metric": "Recall", "Class": label, "Value": recall[i]})
     metrics_list.append({"Metric": "F-Score", "Class": label, "Value": FScore[i]})
     metrics_list.append({"Metric": "Producer's Accuracy", "Class": label, "Value": producer_accuracy[i]})
     metrics_list.append({"Metric": "User's Accuracy", "Class": label, "Value": user_accuracy[i]})
+    metrics_list.append({"Metric": "Class IoU", "Class": label, "Value": iou_dict[label]})
 
 df_metrics = pd.DataFrame(metrics_list)
 df_metrics["CNN"] = model_name
